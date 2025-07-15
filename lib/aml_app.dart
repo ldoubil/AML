@@ -1,4 +1,6 @@
+import 'package:aml/storage/scheme.dart';
 import 'package:aml/ui/screen/main_screen.dart' show MainScreen;
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 class AmlApp extends StatefulWidget {
   const AmlApp({super.key});
@@ -21,24 +23,10 @@ class _AmlAppState extends State<AmlApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-      ).copyWith(
-        textTheme: Typography.material2021().black.apply(fontFamily: 'MiSans'),
-        primaryTextTheme: Typography.material2021().black.apply(
-          fontFamily: 'MiSans',
-        ),
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF26292F),
-      ).copyWith(
-        textTheme: Typography.material2021().white.apply(fontFamily: 'MiSans'),
-        primaryTextTheme: Typography.material2021().white.apply(
-          fontFamily: 'MiSans',
-        ),
+      theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.mandyRed,
+        colorScheme: darkColorScheme,
       ),
       themeMode: ThemeMode.system, // 设置当前主题模式
       home: MainScreen(),
