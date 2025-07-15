@@ -132,6 +132,7 @@ const ColorScheme darkColorScheme = ColorScheme(
   errorContainer: Color(0xFFB1384E),
   onErrorContainer: Color(0xFFFFFFFF),
   surface: Color(0xFF16181c),
+  // surface: Color.fromARGB(0, 133, 123, 123),
   onSurface: Color(0xFFF1F1F1),
   surfaceDim: Color(0xFF060606),
   surfaceBright: Color(0xFF2C2C2C),

@@ -39,6 +39,7 @@ dependencies:
   flutter_rust_bridge: 2.10.0
   window_manager: ^0.5.1
   flex_color_scheme: ^8.2.0
+  flutter_inset_shadow: ^2.0.3
 
 dev_dependencies:
   flutter_test:
