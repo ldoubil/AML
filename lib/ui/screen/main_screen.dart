@@ -1,4 +1,5 @@
 // 导入所需的包
+import 'package:aml/ui/screen/status_bar.dart';
 import 'package:flutter/material.dart';
 
 // 主屏幕Widget，使用StatefulWidget以管理状态
@@ -19,6 +20,7 @@ class _MainScreenState extends State<MainScreen>
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      appBar: StatusBar(),
       body: Center(
         child: Text(
           '你好世界',

@@ -33,6 +33,7 @@ class _AmlAppState extends State<AmlApp> {
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF26292F),
       ).copyWith(
         textTheme: Typography.material2021().white.apply(fontFamily: 'MiSans'),
         primaryTextTheme: Typography.material2021().white.apply(
