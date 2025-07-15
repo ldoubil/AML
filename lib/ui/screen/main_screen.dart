@@ -32,12 +32,7 @@ class _MainScreenState extends State<MainScreen> {
             color: colorScheme.primary,
             child: const Column(
               children: [
-                // 这里可以添加菜单项
-                // Icon(Icons.menu, size: 32),
-                // SizedBox(height: 16),
-                // Icon(Icons.home, size: 32),
-                // SizedBox(height: 16),
-                // Icon(Icons.settings, size: 32),
+              
               ],
             ),
           ),

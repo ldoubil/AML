@@ -17,7 +17,7 @@ class WindowManagerUtils {
         // 设置窗口居中显示
         center: true,
         // 设置窗口标题
-        title: "AstralMinecraftLauncher",
+        title: "AML",
         // 设置标题栏样式为隐藏
         titleBarStyle: TitleBarStyle.hidden,
         // 设置窗口背景为透明

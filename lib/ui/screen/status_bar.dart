@@ -41,13 +41,10 @@ class StatusBar extends StatelessWidget implements PreferredSizeWidget {
         title: ShaderMask(
           shaderCallback:
               (bounds) => LinearGradient(
-                colors: [
-                  colorScheme.error,
-                  colorScheme.tertiary,
-                ],
+                colors: [colorScheme.error, colorScheme.tertiary],
               ).createShader(bounds),
           child: Text(
-            "AstralMinecraftLauncher",
+            "AML",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -59,14 +56,12 @@ class StatusBar extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: kStatusBarHeight,
         // 在桌面平台显示窗口控制按钮
         actions: [
-         
           // IconButton(
           //   icon: const Icon(Icons.color_lens, size: 20), // 减小图标大小
           //   onPressed: () => {},
           //   tooltip: '选择主题颜色',
           //   padding: const EdgeInsets.all(4), // 减小内边距
           // ),
-          
         ],
       ),
     );
