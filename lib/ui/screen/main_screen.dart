@@ -2,6 +2,7 @@
 import 'package:aml/ui/screen/status_bar.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_shadow/flutter_inset_shadow.dart';
+import 'package:aml/ui/widgets/nav_button.dart';
 
 // 主屏幕Widget，使用StatefulWidget以管理状态
 class MainScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class MainScreen extends StatefulWidget {
 
 // MainScreen的状态管理类
 class _MainScreenState extends State<MainScreen> {
+  int _selectedIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -30,9 +32,76 @@ class _MainScreenState extends State<MainScreen> {
           Container(
             width: 64,
             color: colorScheme.primary,
-            child: const Column(
+            child: Column(
+              // 移除 const
               children: [
-              
+                NavButton(
+                  icon: Icons.home_outlined,
+                  label: '首页',
+                  isSelected: _selectedIndex == 0,
+                  onTap: () => setState(() => _selectedIndex = 0),
+                ),
+                NavButton(
+                  icon: Icons.explore_outlined,
+                  label: '发现',
+                  isSelected: _selectedIndex == 1,
+                  onTap: () => setState(() => _selectedIndex = 1),
+                ),
+                NavButton(
+                  icon: Icons.checkroom_outlined,
+                  label: '衣柜',
+                  isSelected: _selectedIndex == 2,
+                  onTap: () => setState(() => _selectedIndex = 2),
+                ),
+                NavButton(
+                  icon: Icons.folder_outlined,
+                  label: '资源库',
+                  isSelected: _selectedIndex == 3,
+                  onTap: () => setState(() => _selectedIndex = 3),
+                ),
+                // 添加一个带有上下边距的分割线
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 19,
+                    endIndent: 19,
+                  ),
+                ),
+                NavButton(
+                  icon: Icons.settings_outlined,
+                  label: '设置',
+                  isSelected: _selectedIndex == 4,
+                  onTap: () => setState(() => _selectedIndex = 4),
+                ),
+                NavButton(
+                  icon: Icons.settings_outlined,
+                  label: '设置',
+                  isSelected: _selectedIndex == 5,
+                  onTap: () => setState(() => _selectedIndex = 5),
+                ),
+                NavButton(
+                  icon: Icons.settings_outlined,
+                  label: '设置',
+                  isSelected: _selectedIndex == 6,
+                  onTap: () => setState(() => _selectedIndex = 6),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 19,
+                    endIndent: 19,
+                  ),
+                ),
+                NavButton(
+                  icon: Icons.add_outlined,
+                  label: '添加',
+                  isSelected: _selectedIndex == 4,
+                  onTap: () => setState(() => _selectedIndex = 4),
+                ), // 分割线上下边距20
               ],
             ),
           ),

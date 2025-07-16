@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+
+class CustomButton extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  final Color? hoverBackgroundColor;
+  final Color? hoverIconColor;
+
+  const CustomButton({
+    super.key,
+    required this.icon,
+    required this.onTap,
+    this.hoverBackgroundColor,
+    this.hoverIconColor,
+  });
+
+  @override
+  State<CustomButton> createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> with TickerProviderStateMixin {
+  bool _isHovered = false;
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+  late AnimationController _hoverAnimationController;
+  late Animation<double> _backgroundScaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
+    );
+    
+    _hoverAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _backgroundScaleAnimation = Tween<double>(begin: 0.9, end: 1).animate(
+      CurvedAnimation(parent: _hoverAnimationController, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _hoverAnimationController.dispose();
+    super.dispose();
+  }
+
+  void _handleTapDown(TapDownDetails details) {
+    _animationController.forward();
+  }
+
+  void _handleTapUp(TapUpDetails details) {
+    _animationController.reverse();
+    widget.onTap();
+  }
+
+  void _handleTapCancel() {
+    _animationController.reverse();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return MouseRegion(
+      onEnter: (_) {
+        setState(() => _isHovered = true);
+        _hoverAnimationController.forward();
+      },
+      onExit: (_) {
+        setState(() => _isHovered = false);
+        _hoverAnimationController.reverse();
+      },
+      cursor: _isHovered ? SystemMouseCursors.click : MouseCursor.defer,
+      child: GestureDetector(
+        onTapDown: _handleTapDown,
+        onTapUp: _handleTapUp,
+        onTapCancel: _handleTapCancel,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // 背景层 - 应用缩放动画
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return AnimatedBuilder(
+                  animation: _hoverAnimationController,
+                  builder: (context, child) {
+                    // 组合两种动画效果：悬停缩放和点击缩放
+                    // 当按下时，无论是否悬停，都应用_scaleAnimation
+                    // 当悬停且未按下时，应用_backgroundScaleAnimation
+                    return Transform.scale(
+                      scale: _animationController.status == AnimationStatus.forward || 
+                             _animationController.status == AnimationStatus.completed
+                          ? _scaleAnimation.value  // 按下状态优先
+                          : (_isHovered ? _backgroundScaleAnimation.value : 1.0),
+                      child: Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: _isHovered 
+                              ? (widget.hoverBackgroundColor ?? colorScheme.tertiary) 
+                              : colorScheme.tertiary.withAlpha(0),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+            // 内容层 - 不应用缩放动画
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                widget.icon,
+                size: 24,
+                color: _isHovered 
+                    ? (widget.hoverIconColor ?? colorScheme.onTertiaryContainer) 
+                    : colorScheme.tertiaryContainer,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

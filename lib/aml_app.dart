@@ -23,6 +23,7 @@ class _AmlAppState extends State<AmlApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
       darkTheme: FlexThemeData.dark(
         scheme: FlexScheme.mandyRed,

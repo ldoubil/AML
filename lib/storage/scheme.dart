@@ -119,10 +119,10 @@ const ColorScheme darkColorScheme = ColorScheme(
   secondaryFixedDim: Color(0xFFF3C08C),
   onSecondaryFixed: Color(0xFF4F2800),
   onSecondaryFixedVariant: Color(0xFF613000),
-  tertiary: Color(0xFFC9CBFC),
-  onTertiary: Color(0xFF000000),
-  tertiaryContainer: Color(0xFF535393),
-  onTertiaryContainer: Color(0xFFFFFFFF),
+  tertiary: Color(0xFF494f58),  //悬停背景颜色
+  onTertiary: Color(0xFF00af5c), //激活
+  tertiaryContainer: Color(0xFFb0bac5), //按钮默认文本
+  onTertiaryContainer: Color(0xFFFFFFFF), //按钮悬浮样式
   tertiaryFixed: Color(0xFFDBDBE9),
   tertiaryFixedDim: Color(0xFFB7B7D2),
   onTertiaryFixed: Color(0xFF27273E),
