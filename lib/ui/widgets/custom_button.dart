@@ -1,3 +1,4 @@
+import 'package:aml/ui/widgets/custom_tooltop.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
@@ -5,6 +6,7 @@ class CustomButton extends StatefulWidget {
   final VoidCallback onTap;
   final Color? hoverBackgroundColor;
   final Color? hoverIconColor;
+  final String? label; // 新增可选 label 参数
 
   const CustomButton({
     super.key,
@@ -12,6 +14,7 @@ class CustomButton extends StatefulWidget {
     required this.onTap,
     this.hoverBackgroundColor,
     this.hoverIconColor,
+    this.label, // 添加到构造函数
   });
 
   @override
@@ -72,7 +75,7 @@ class _CustomButtonState extends State<CustomButton>
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return MouseRegion(
+    Widget button = MouseRegion(
       onEnter: (_) {
         setState(() => _isHovered = true);
         _hoverAnimationController.forward();
@@ -141,5 +144,12 @@ class _CustomButtonState extends State<CustomButton>
         ),
       ),
     );
+
+    // 如果 label 不为空，使用 Tooltip 包裹
+    if (widget.label != null && widget.label!.isNotEmpty) {
+      return CustomTooltip(message: widget.label!, child: button);
+    } else {
+      return button;
+    }
   }
 }

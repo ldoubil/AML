@@ -104,9 +104,10 @@ class _MainScreenState extends State<MainScreen> {
                 Spacer(),
                 CustomButton(
                   icon: Icons.tune_outlined,
+                  label: "设置",
                   onTap: () => setState(() => {}),
                 ), // 分割线上下边距20
-                SizedBox(height: 10,)
+                SizedBox(height: 10),
               ],
             ),
           ),

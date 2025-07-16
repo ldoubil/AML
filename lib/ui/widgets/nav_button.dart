@@ -1,3 +1,4 @@
+import 'package:aml/ui/widgets/custom_tooltop.dart';
 import 'package:flutter/material.dart';
 
 class NavButton extends StatefulWidget {
@@ -73,7 +74,7 @@ class _NavButtonState extends State<NavButton> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return MouseRegion(
+    Widget button = MouseRegion(
       onEnter: (_) {
         setState(() => _isHovered = true);
         // 只有未选中的按钮才执行悬停动画
@@ -182,5 +183,12 @@ class _NavButtonState extends State<NavButton> with TickerProviderStateMixin {
         ),
       ),
     );
+    
+    // 如果 label 不为空，使用 Tooltip 包裹
+    if (widget.label.isNotEmpty) {
+      return CustomTooltip(message: widget.label, child: button);
+    } else {
+      return button;
+    }
   }
 }
