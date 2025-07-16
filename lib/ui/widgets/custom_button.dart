@@ -28,6 +28,8 @@ class _CustomButtonState extends State<CustomButton>
   late Animation<double> _scaleAnimation;
   late AnimationController _hoverAnimationController;
   late Animation<double> _backgroundScaleAnimation;
+  late Animation<Color?> _backgroundColorAnimation;
+  late Animation<Color?> _iconColorAnimation;
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _CustomButtonState extends State<CustomButton>
     );
 
     _hoverAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100), // 增加动画时长使渐变更明显
       vsync: this,
     );
     _backgroundScaleAnimation = Tween<double>(begin: 0.9, end: 1).animate(
@@ -50,6 +52,29 @@ class _CustomButtonState extends State<CustomButton>
         curve: Curves.easeInOut,
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final colorScheme = Theme.of(context).colorScheme;
+    
+    // 初始化颜色动画
+    _backgroundColorAnimation = ColorTween(
+      begin: colorScheme.tertiary.withAlpha(0),
+      end: widget.hoverBackgroundColor ?? colorScheme.tertiary,
+    ).animate(CurvedAnimation(
+      parent: _hoverAnimationController,
+      curve: Curves.easeInOut,
+    ));
+    
+    _iconColorAnimation = ColorTween(
+      begin: colorScheme.tertiaryContainer,
+      end: widget.hoverIconColor ?? colorScheme.onTertiaryContainer,
+    ).animate(CurvedAnimation(
+      parent: _hoverAnimationController,
+      curve: Curves.easeInOut,
+    ));
   }
 
   @override
@@ -74,7 +99,6 @@ class _CustomButtonState extends State<CustomButton>
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     Widget button = MouseRegion(
       onEnter: (_) {
         setState(() => _isHovered = true);
@@ -92,7 +116,7 @@ class _CustomButtonState extends State<CustomButton>
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // 背景层 - 应用缩放动画
+            // 背景层 - 应用缩放和颜色渐变动画
             AnimatedBuilder(
               animation: _animationController,
               builder: (context, child) {
@@ -114,11 +138,7 @@ class _CustomButtonState extends State<CustomButton>
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color:
-                              _isHovered
-                                  ? (widget.hoverBackgroundColor ??
-                                      colorScheme.tertiary)
-                                  : colorScheme.tertiary.withAlpha(0),
+                          color: _backgroundColorAnimation.value,
                           borderRadius: BorderRadius.circular(24),
                         ),
                       ),
@@ -127,18 +147,19 @@ class _CustomButtonState extends State<CustomButton>
                 );
               },
             ),
-            // 内容层 - 不应用缩放动画
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                widget.icon,
-                size: 24,
-                color:
-                    _isHovered
-                        ? (widget.hoverIconColor ??
-                            colorScheme.onTertiaryContainer)
-                        : colorScheme.tertiaryContainer,
-              ),
+            // 内容层 - 应用图标颜色渐变动画
+            AnimatedBuilder(
+              animation: _hoverAnimationController,
+              builder: (context, child) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(
+                    widget.icon,
+                    size: 24,
+                    color: _iconColorAnimation.value,
+                  ),
+                );
+              },
             ),
           ],
         ),
