@@ -108,7 +108,6 @@ class _SettingsScreenState extends State<SettingsScreen>
                                             context,
                                           ).textTheme.headlineMedium,
                                     ),
-                                    
                                   ],
                                 ),
                               ),
