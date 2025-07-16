@@ -101,14 +101,12 @@ class _MainScreenState extends State<MainScreen> {
                   icon: Icons.add_outlined,
                   onTap: () => setState(() => {}),
                 ),
+                Spacer(),
                 CustomButton(
-                  icon: Icons.add_outlined,
-                  onTap: () => setState(() => {}),
-                ),
-                CustomButton(
-                  icon: Icons.add_outlined,
+                  icon: Icons.tune_outlined,
                   onTap: () => setState(() => {}),
                 ), // 分割线上下边距20
+                SizedBox(height: 10,)
               ],
             ),
           ),
