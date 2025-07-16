@@ -4,6 +4,7 @@ import 'package:aml/ui/widgets/custom_button.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_shadow/flutter_inset_shadow.dart';
 import 'package:aml/ui/widgets/nav_button.dart';
+import 'package:aml/ui/screen/settings_screen.dart';
 
 // 主屏幕Widget，使用StatefulWidget以管理状态
 class MainScreen extends StatefulWidget {
@@ -105,7 +106,19 @@ class _MainScreenState extends State<MainScreen> {
                 CustomButton(
                   icon: Icons.tune_outlined,
                   label: "设置",
-                  onTap: () => setState(() => {}),
+                  onTap: () {
+                    // 使用Navigator.push方法导航到设置页面
+                    Navigator.of(context).push(
+                      // 创建自定义页面路由
+                      PageRouteBuilder(
+                        // 设置路由背景为透明
+                        opaque: false,
+                        // 构建目标页面组件
+                        pageBuilder: (_, __, ___) => const SettingsScreen(),
+                        
+                      ),
+                    );
+                  },
                 ), // 分割线上下边距20
                 SizedBox(height: 10),
               ],
