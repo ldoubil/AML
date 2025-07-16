@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class NavButton extends StatefulWidget {
-  final IconData icon;
+  final IconData? icon;
+  final ImageProvider? image;
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
 
   const NavButton({
     super.key,
-    required this.icon,
+    this.icon,
+    this.image,
     required this.label,
     required this.isSelected,
     required this.onTap,
@@ -105,10 +107,16 @@ class _NavButtonState extends State<NavButton> with TickerProviderStateMixin {
                     // 当未选中且悬停时，应用_backgroundScaleAnimation
                     // 当选中时，不应用悬停动画
                     return Transform.scale(
-                      scale: _animationController.status == AnimationStatus.forward || 
-                             _animationController.status == AnimationStatus.completed
-                          ? _scaleAnimation.value  // 按下状态优先
-                          : (!widget.isSelected && _isHovered ? _backgroundScaleAnimation.value : 1.0), // 只有未选中的按钮才应用悬停动画
+                      scale:
+                          _animationController.status ==
+                                      AnimationStatus.forward ||
+                                  _animationController.status ==
+                                      AnimationStatus.completed
+                              ? _scaleAnimation
+                                  .value // 按下状态优先
+                              : (!widget.isSelected && _isHovered
+                                  ? _backgroundScaleAnimation.value
+                                  : 1.0), // 只有未选中的按钮才应用悬停动画
                       child: Container(
                         width: 48,
                         height: 48,
@@ -134,16 +142,39 @@ class _NavButtonState extends State<NavButton> with TickerProviderStateMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    widget.icon,
-                    size: 24,
-                    color:
-                        widget.isSelected
-                            ? colorScheme.onTertiary
-                            : (_isHovered
-                                ? colorScheme.onTertiaryContainer
-                                : colorScheme.tertiaryContainer),
-                  ),
+                  if (widget.image != null)
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(51),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image(
+                          image: widget.image!,
+                          width: 28,
+                          height: 28,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  else if (widget.icon != null)
+                    Icon(
+                      widget.icon,
+                      size: 24,
+                      color:
+                          widget.isSelected
+                              ? colorScheme.onTertiary
+                              : (_isHovered
+                                  ? colorScheme.onTertiaryContainer
+                                  : colorScheme.tertiaryContainer),
+                    ),
                 ],
               ),
             ),

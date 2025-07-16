@@ -18,7 +18,8 @@ class CustomButton extends StatefulWidget {
   State<CustomButton> createState() => _CustomButtonState();
 }
 
-class _CustomButtonState extends State<CustomButton> with TickerProviderStateMixin {
+class _CustomButtonState extends State<CustomButton>
+    with TickerProviderStateMixin {
   bool _isHovered = false;
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
@@ -35,13 +36,16 @@ class _CustomButtonState extends State<CustomButton> with TickerProviderStateMix
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-    
+
     _hoverAnimationController = AnimationController(
       duration: const Duration(milliseconds: 100),
       vsync: this,
     );
     _backgroundScaleAnimation = Tween<double>(begin: 0.9, end: 1).animate(
-      CurvedAnimation(parent: _hoverAnimationController, curve: Curves.easeInOut),
+      CurvedAnimation(
+        parent: _hoverAnimationController,
+        curve: Curves.easeInOut,
+      ),
     );
   }
 
@@ -92,21 +96,26 @@ class _CustomButtonState extends State<CustomButton> with TickerProviderStateMix
                 return AnimatedBuilder(
                   animation: _hoverAnimationController,
                   builder: (context, child) {
-                    // 组合两种动画效果：悬停缩放和点击缩放
-                    // 当按下时，无论是否悬停，都应用_scaleAnimation
-                    // 当悬停且未按下时，应用_backgroundScaleAnimation
                     return Transform.scale(
-                      scale: _animationController.status == AnimationStatus.forward || 
-                             _animationController.status == AnimationStatus.completed
-                          ? _scaleAnimation.value  // 按下状态优先
-                          : (_isHovered ? _backgroundScaleAnimation.value : 1.0),
+                      scale:
+                          _animationController.status ==
+                                      AnimationStatus.forward ||
+                                  _animationController.status ==
+                                      AnimationStatus.completed
+                              ? _scaleAnimation
+                                  .value // 按下状态优先
+                              : (_isHovered
+                                  ? _backgroundScaleAnimation.value
+                                  : 1.0),
                       child: Container(
                         width: 48,
                         height: 48,
                         decoration: BoxDecoration(
-                          color: _isHovered 
-                              ? (widget.hoverBackgroundColor ?? colorScheme.tertiary) 
-                              : colorScheme.tertiary.withAlpha(0),
+                          color:
+                              _isHovered
+                                  ? (widget.hoverBackgroundColor ??
+                                      colorScheme.tertiary)
+                                  : colorScheme.tertiary.withAlpha(0),
                           borderRadius: BorderRadius.circular(24),
                         ),
                       ),
@@ -121,9 +130,11 @@ class _CustomButtonState extends State<CustomButton> with TickerProviderStateMix
               child: Icon(
                 widget.icon,
                 size: 24,
-                color: _isHovered 
-                    ? (widget.hoverIconColor ?? colorScheme.onTertiaryContainer) 
-                    : colorScheme.tertiaryContainer,
+                color:
+                    _isHovered
+                        ? (widget.hoverIconColor ??
+                            colorScheme.onTertiaryContainer)
+                        : colorScheme.tertiaryContainer,
               ),
             ),
           ],

@@ -1,5 +1,6 @@
 // 导入所需的包
 import 'package:aml/ui/screen/status_bar.dart';
+import 'package:aml/ui/widgets/custom_button.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_shadow/flutter_inset_shadow.dart';
 import 'package:aml/ui/widgets/nav_button.dart';
@@ -70,19 +71,19 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 NavButton(
-                  icon: Icons.settings_outlined,
+                  image: AssetImage('assets/logo.png'),
                   label: '设置',
                   isSelected: _selectedIndex == 4,
                   onTap: () => setState(() => _selectedIndex = 4),
                 ),
                 NavButton(
-                  icon: Icons.settings_outlined,
+                  image: AssetImage('assets/2.webp'),
                   label: '设置',
                   isSelected: _selectedIndex == 5,
                   onTap: () => setState(() => _selectedIndex = 5),
                 ),
                 NavButton(
-                  icon: Icons.settings_outlined,
+                  image: AssetImage('assets/logo.png'),
                   label: '设置',
                   isSelected: _selectedIndex == 6,
                   onTap: () => setState(() => _selectedIndex = 6),
@@ -96,11 +97,17 @@ class _MainScreenState extends State<MainScreen> {
                     endIndent: 19,
                   ),
                 ),
-                NavButton(
+                CustomButton(
                   icon: Icons.add_outlined,
-                  label: '添加',
-                  isSelected: _selectedIndex == 4,
-                  onTap: () => setState(() => _selectedIndex = 4),
+                  onTap: () => setState(() => {}),
+                ),
+                CustomButton(
+                  icon: Icons.add_outlined,
+                  onTap: () => setState(() => {}),
+                ),
+                CustomButton(
+                  icon: Icons.add_outlined,
+                  onTap: () => setState(() => {}),
                 ), // 分割线上下边距20
               ],
             ),
