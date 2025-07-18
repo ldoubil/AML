@@ -59,7 +59,7 @@ class _StatusBarState extends State<StatusBar> {
                             colors: [colorScheme.error, colorScheme.tertiary],
                           ).createShader(bounds),
                           child: Text(
-                            "AML",
+                            "ASTRAL MCL",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

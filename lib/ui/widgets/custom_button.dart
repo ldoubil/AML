@@ -1,12 +1,19 @@
 import 'package:aml/ui/widgets/custom_tooltop.dart';
 import 'package:flutter/material.dart';
 
+enum ButtonSize {
+  large, // 48x48
+  medium, // 36x36
+  small, // 24x24
+}
+
 class CustomButton extends StatefulWidget {
   final IconData icon;
   final VoidCallback onTap;
   final Color? hoverBackgroundColor;
   final Color? hoverIconColor;
-  final String? label; // 新增可选 label 参数
+  final String? label;
+  final ButtonSize size; // 新增尺寸参数
 
   const CustomButton({
     super.key,
@@ -14,7 +21,8 @@ class CustomButton extends StatefulWidget {
     required this.onTap,
     this.hoverBackgroundColor,
     this.hoverIconColor,
-    this.label, // 添加到构造函数
+    this.label,
+    this.size = ButtonSize.large, // 默认大尺寸
   });
 
   @override
@@ -31,6 +39,40 @@ class _CustomButtonState extends State<CustomButton>
   late Animation<Color?> _backgroundColorAnimation;
   late Animation<Color?> _iconColorAnimation;
 
+  // 根据尺寸获取对应的数值
+  double get _buttonSize {
+    switch (widget.size) {
+      case ButtonSize.large:
+        return 48;
+      case ButtonSize.medium:
+        return 36;
+      case ButtonSize.small:
+        return 24;
+    }
+  }
+
+  double get _iconSize {
+    switch (widget.size) {
+      case ButtonSize.large:
+        return 24;
+      case ButtonSize.medium:
+        return 18;
+      case ButtonSize.small:
+        return 12;
+    }
+  }
+
+  double get _padding {
+    switch (widget.size) {
+      case ButtonSize.large:
+        return 8.0;
+      case ButtonSize.medium:
+        return 6.0;
+      case ButtonSize.small:
+        return 4.0;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +84,7 @@ class _CustomButtonState extends State<CustomButton>
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
     _hoverAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 100), // 增加动画时长使渐变更明显
+      duration: const Duration(milliseconds: 100),
       vsync: this,
     );
     _backgroundScaleAnimation = Tween<double>(begin: 0.9, end: 1).animate(
@@ -138,11 +180,11 @@ class _CustomButtonState extends State<CustomButton>
                                   ? _backgroundScaleAnimation.value
                                   : 1.0),
                       child: Container(
-                        width: 48,
-                        height: 48,
+                        width: _buttonSize,
+                        height: _buttonSize,
                         decoration: BoxDecoration(
                           color: _backgroundColorAnimation.value,
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(_buttonSize / 2),
                         ),
                       ),
                     );
@@ -155,10 +197,10 @@ class _CustomButtonState extends State<CustomButton>
               animation: _hoverAnimationController,
               builder: (context, child) {
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(_padding),
                   child: Icon(
                     widget.icon,
-                    size: 24,
+                    size: _iconSize,
                     color: _iconColorAnimation.value,
                   ),
                 );

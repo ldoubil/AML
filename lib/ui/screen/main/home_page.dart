@@ -1,36 +1,59 @@
 import 'package:flutter/material.dart';
+import '../../widgets/game_back_hover_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.home_outlined,
-            size: 64,
-            color: Colors.grey,
-          ),
-          SizedBox(height: 16),
-          Text(
-            '首页',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    final colorScheme = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 12),
+            const Text(
+              '欢迎回家冒险者!',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFFECF9FB),
+              ),
             ),
-          ),
-          SizedBox(height: 8),
-          Text(
-            '这里是首页内容区域',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
+            const SizedBox(height: 10),
+            Text(
+              '重新加入',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: colorScheme.tertiaryContainer,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 16),
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 4,
+              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              itemBuilder: (context, index) {
+                return GameBackHoverCard(
+                  onTap: () {
+                    // 在这里添加点击事件处理
+                    print('卡片被点击了');
+                  },
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

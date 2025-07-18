@@ -13,7 +13,7 @@ class NavRectButton extends StatefulWidget {
   final String? text;
 
   /// 按钮标签(用于tooltip提示)
-  final String label;
+  final String? label;
 
   /// 是否选中状态
   final bool isSelected;
@@ -26,6 +26,9 @@ class NavRectButton extends StatefulWidget {
 
   /// 按钮宽度
   final double? width;
+
+  /// 内边距
+  final EdgeInsetsGeometry? padding;
 
   /// 默认文本和图标颜色
   final Color? defaultColor;
@@ -56,11 +59,12 @@ class NavRectButton extends StatefulWidget {
     this.icon,
     this.image,
     this.text,
-    required this.label,
+    this.label,
     required this.isSelected,
     required this.onTap,
     this.onLongPress,
     this.width,
+    this.padding,
     this.defaultColor,
     this.hoverColor,
     this.hoverTextColor,
@@ -207,82 +211,84 @@ class _NavRectButtonState extends State<NavRectButton>
       currentBorderColor = defaultBorderColor;
     }
 
-    return CustomTooltip(
-      message: widget.label,
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click, // 添加手型光标
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: GestureDetector(
-          onTapDown: _handleTapDown,
-          onTapUp: _handleTapUp,
-          onTapCancel: _handleTapCancel,
-          child: AnimatedBuilder(
-            animation: _animationController,
-            builder: (context, child) {
-              return Transform.scale(
-                scale: _scaleAnimation.value,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.easeInOut,
-                  width: widget.width,
-                  height: 37,
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  constraints:
-                      widget.width != null
-                          ? BoxConstraints(maxWidth: widget.width!)
-                          : null,
-                  decoration: BoxDecoration(
-                    color: currentBgColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: currentBorderColor, width: 1),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      if (widget.icon != null)
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 100),
-                          child: Icon(
-                            widget.icon,
-                            key: ValueKey(currentTextColor),
-                            size: 20,
-                            color: currentTextColor,
-                          ),
-                        ),
-                      if (widget.image != null)
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 100),
-                          child: Image(
-                            key: ValueKey(currentTextColor),
-                            image: widget.image!,
-                            width: 20,
-                            height: 20,
-                            color: currentTextColor,
-                          ),
-                        ),
-                      if (widget.text != null) ...[
-                        if (widget.icon != null || widget.image != null)
-                          const SizedBox(width: 8),
-                        AnimatedDefaultTextStyle(
-                          duration: const Duration(milliseconds: 100),
-                          curve: Curves.easeInOut,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                            color: currentTextColor,
-                          ),
-                          child: Text(widget.text!),
-                        ),
-                      ],
-                    ],
-                  ),
+    Widget content = MouseRegion(
+      cursor: SystemMouseCursors.click, // 添加手型光标
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTapDown: _handleTapDown,
+        onTapUp: _handleTapUp,
+        onTapCancel: _handleTapCancel,
+        child: AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _scaleAnimation.value,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeInOut,
+                width: widget.width,
+                height: 37,
+                padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 14),
+                constraints:
+                    widget.width != null
+                        ? BoxConstraints(maxWidth: widget.width!)
+                        : null,
+                decoration: BoxDecoration(
+                  color: currentBgColor,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: currentBorderColor, width: 1),
                 ),
-              );
-            },
-          ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    if (widget.icon != null)
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 100),
+                        child: Icon(
+                          widget.icon,
+                          key: ValueKey(currentTextColor),
+                          size: 20,
+                          color: currentTextColor,
+                        ),
+                      ),
+                    if (widget.image != null)
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 100),
+                        child: Image(
+                          key: ValueKey(currentTextColor),
+                          image: widget.image!,
+                          width: 20,
+                          height: 20,
+                          color: currentTextColor,
+                        ),
+                      ),
+                    if (widget.text != null) ...[
+                      if (widget.icon != null || widget.image != null)
+                        const SizedBox(width: 8),
+                      AnimatedDefaultTextStyle(
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.easeInOut,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                          color: currentTextColor,
+                        ),
+                        child: Text(widget.text!),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
+
+    // 只有在有label时才显示tooltip
+    return widget.label != null && widget.label!.isNotEmpty
+        ? CustomTooltip(message: widget.label ?? '', child: content)
+        : content;
   }
 }
