@@ -120,7 +120,7 @@ const ColorScheme darkColorScheme = ColorScheme(
   onSecondaryFixed: Color(0xFF4F2800),
   onSecondaryFixedVariant: Color(0xFF613000),
   tertiary: Color(0xFF494f58),  //悬停背景颜色
-  onTertiary: Color(0xFF00af5c), //激活
+  onTertiary: Color.fromARGB(255, 21, 255, 119), //激活
   tertiaryContainer: Color(0xFFb0bac5), //按钮默认文本
   onTertiaryContainer: Color(0xFFFFFFFF), //按钮悬浮样式
   tertiaryFixed: Color(0xFFDBDBE9),

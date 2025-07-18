@@ -41,7 +41,6 @@ class _CustomButtonState extends State<CustomButton>
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-
     _hoverAnimationController = AnimationController(
       duration: const Duration(milliseconds: 100), // 增加动画时长使渐变更明显
       vsync: this,
@@ -58,23 +57,27 @@ class _CustomButtonState extends State<CustomButton>
   void didChangeDependencies() {
     super.didChangeDependencies();
     final colorScheme = Theme.of(context).colorScheme;
-    
+
     // 初始化颜色动画
     _backgroundColorAnimation = ColorTween(
       begin: colorScheme.tertiary.withAlpha(0),
       end: widget.hoverBackgroundColor ?? colorScheme.tertiary,
-    ).animate(CurvedAnimation(
-      parent: _hoverAnimationController,
-      curve: Curves.easeInOut,
-    ));
-    
+    ).animate(
+      CurvedAnimation(
+        parent: _hoverAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
     _iconColorAnimation = ColorTween(
       begin: colorScheme.tertiaryContainer,
       end: widget.hoverIconColor ?? colorScheme.onTertiaryContainer,
-    ).animate(CurvedAnimation(
-      parent: _hoverAnimationController,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _hoverAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   @override

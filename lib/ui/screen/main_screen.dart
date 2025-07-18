@@ -5,6 +5,7 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_shadow/flutter_inset_shadow.dart';
 import 'package:aml/ui/widgets/nav_button.dart';
 import 'package:aml/ui/screen/settings_screen.dart';
+import 'package:aml/ui/screen/main/main_config.dart';
 
 // 主屏幕Widget，使用StatefulWidget以管理状态
 class MainScreen extends StatefulWidget {
@@ -17,9 +18,19 @@ class MainScreen extends StatefulWidget {
 // MainScreen的状态管理类
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  
   @override
   void initState() {
     super.initState();
+  }
+
+  Widget _getCurrentPage() {
+    if (_selectedIndex < MainConfig.pages.length) {
+      return MainConfig.pages[_selectedIndex].page;
+    }
+    return const Center(
+      child: Text('页面未找到', style: TextStyle(fontSize: 24)),
+    );
   }
 
   @override
@@ -35,32 +46,18 @@ class _MainScreenState extends State<MainScreen> {
             width: 64,
             color: colorScheme.primary,
             child: Column(
-              // 移除 const
               children: [
-                NavButton(
-                  icon: Icons.home_outlined,
-                  label: '首页',
-                  isSelected: _selectedIndex == 0,
-                  onTap: () => setState(() => _selectedIndex = 0),
-                ),
-                NavButton(
-                  icon: Icons.explore_outlined,
-                  label: '发现',
-                  isSelected: _selectedIndex == 1,
-                  onTap: () => setState(() => _selectedIndex = 1),
-                ),
-                NavButton(
-                  icon: Icons.checkroom_outlined,
-                  label: '衣柜',
-                  isSelected: _selectedIndex == 2,
-                  onTap: () => setState(() => _selectedIndex = 2),
-                ),
-                NavButton(
-                  icon: Icons.folder_outlined,
-                  label: '资源库',
-                  isSelected: _selectedIndex == 3,
-                  onTap: () => setState(() => _selectedIndex = 3),
-                ),
+                // 动态生成主要导航按钮
+                ...MainConfig.pages.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final pageConfig = entry.value;
+                  return NavButton(
+                    icon: pageConfig.icon,
+                    label: pageConfig.label,
+                    isSelected: _selectedIndex == index,
+                    onTap: () => setState(() => _selectedIndex = index),
+                  );
+                }),
                 // 添加一个带有上下边距的分割线
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
@@ -157,9 +154,7 @@ class _MainScreenState extends State<MainScreen> {
                   topLeft: Radius.circular(20),
                 ),
               ),
-              child: const Center(
-                child: Text('', style: TextStyle(fontSize: 24)),
-              ),
+              child: _getCurrentPage(),
             ),
           ),
         ],
