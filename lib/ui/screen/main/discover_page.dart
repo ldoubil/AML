@@ -14,8 +14,14 @@ class DiscoverPage extends StatefulWidget {
 
 class _DiscoverPageState extends State<DiscoverPage> {
   int _selectedTabIndex = 0;
-  final List<String> _tabs = ['模组整合包', '模组', '资源包', '数据包', '着色器'];
-  final List<String> _tabsFacets = ['modpack', 'mod', 'resourcepack', 'datapack', 'shader'];
+  final List<String> _tabs = ['整合包', '模组', '资源包', '数据包', '着色器'];
+  final List<String> _tabsFacets = [
+    'modpack',
+    'mod',
+    'resourcepack',
+    'datapack',
+    'shader',
+  ];
   // 储存 ModrinthSearchResult list
   ModrinthSearchResult? _modrinthSearchResultList;
   bool _isLoading = true;
@@ -25,9 +31,13 @@ class _DiscoverPageState extends State<DiscoverPage> {
     setState(() {
       _isLoading = true;
     });
-    
+
     final currentFacet = _tabsFacets[_selectedTabIndex];
-    ModrinthApiService.searchProjects(facets: [['project_type:$currentFacet']])
+    ModrinthApiService.searchProjects(
+          facets: [
+            ['project_type:$currentFacet'],
+          ],
+        )
         .then((value) {
           setState(() {
             _modrinthSearchResultList = value;
