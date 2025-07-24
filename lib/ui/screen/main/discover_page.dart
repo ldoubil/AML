@@ -37,6 +37,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
           facets: [
             ['project_type:$currentFacet'],
           ],
+          limit: 100
         )
         .then((value) {
           setState(() {
