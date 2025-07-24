@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:aml/ui/widgets/custom_tooltop.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,8 @@ class CustomButton extends StatefulWidget {
   final Color? hoverIconColor;
   final String? label;
   final ButtonSize size; // 新增尺寸参数
+  final VoidCallback? onMouseEnter; // 鼠标进入回调
+  final VoidCallback? onMouseExit; // 鼠标离开回调
 
   const CustomButton({
     super.key,
@@ -23,6 +26,8 @@ class CustomButton extends StatefulWidget {
     this.hoverIconColor,
     this.label,
     this.size = ButtonSize.large, // 默认大尺寸
+    this.onMouseEnter,
+    this.onMouseExit,
   });
 
   @override
@@ -38,6 +43,9 @@ class _CustomButtonState extends State<CustomButton>
   late Animation<double> _backgroundScaleAnimation;
   late Animation<Color?> _backgroundColorAnimation;
   late Animation<Color?> _iconColorAnimation;
+
+  /// 按下时间记录
+  DateTime? _tapDownTime;
 
   // 根据尺寸获取对应的数值
   double get _buttonSize {
@@ -131,15 +139,54 @@ class _CustomButtonState extends State<CustomButton>
 
   void _handleTapDown(TapDownDetails details) {
     _animationController.forward();
+    _tapDownTime = DateTime.now();
   }
 
   void _handleTapUp(TapUpDetails details) {
-    _animationController.reverse();
+    // 计算已经过去的时间
+    final elapsedTime =
+        _tapDownTime != null
+            ? DateTime.now().difference(_tapDownTime!).inMilliseconds
+            : 0;
+
+    // 确保动画至少播放0.1秒（100毫秒）
+    const minAnimationTime = 100;
+    final remainingTime = minAnimationTime - elapsedTime;
+
+    if (remainingTime > 0) {
+      // 如果还没有达到最小动画时间，延迟执行reverse
+      Timer(Duration(milliseconds: remainingTime), () {
+        _animationController.reverse();
+      });
+    } else {
+      // 已经达到最小时间，立即执行reverse
+      _animationController.reverse();
+    }
+
+    // 执行点击回调
     widget.onTap();
   }
 
   void _handleTapCancel() {
-    _animationController.reverse();
+    // 计算已经过去的时间
+    final elapsedTime =
+        _tapDownTime != null
+            ? DateTime.now().difference(_tapDownTime!).inMilliseconds
+            : 0;
+
+    // 确保动画至少播放0.1秒（100毫秒）
+    const minAnimationTime = 100;
+    final remainingTime = minAnimationTime - elapsedTime;
+
+    if (remainingTime > 0) {
+      // 如果还没有达到最小动画时间，延迟执行reverse
+      Timer(Duration(milliseconds: remainingTime), () {
+        _animationController.reverse();
+      });
+    } else {
+      // 已经达到最小时间，立即执行reverse
+      _animationController.reverse();
+    }
   }
 
   @override
@@ -148,10 +195,12 @@ class _CustomButtonState extends State<CustomButton>
       onEnter: (_) {
         setState(() => _isHovered = true);
         _hoverAnimationController.forward();
+        widget.onMouseEnter?.call();
       },
       onExit: (_) {
         setState(() => _isHovered = false);
         _hoverAnimationController.reverse();
+        widget.onMouseExit?.call();
       },
       cursor: _isHovered ? SystemMouseCursors.click : MouseCursor.defer,
       child: GestureDetector(
