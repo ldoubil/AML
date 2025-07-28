@@ -14,8 +14,9 @@ class DiscoverPage extends StatefulWidget {
 
 class _DiscoverPageState extends State<DiscoverPage> {
   int _selectedTabIndex = 0;
+  String _selectedSortValue = 'relevance';
+  int _selectedPageSize = 20; 
   final List<String> _tabs = ['整合包', '模组', '资源包', '数据包', '着色器'];
-  String _selectedDropdownValue = '整合包'; // Add this line
   final List<String> _tabsFacets = [
     'modpack',
     'mod',
@@ -41,6 +42,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
           facets: [
             ['project_type:$currentFacet'],
           ],
+          index: _selectedSortValue,
+          limit: _selectedPageSize,
         )
         .then((value) {
           setState(() {
@@ -99,45 +102,51 @@ class _DiscoverPageState extends State<DiscoverPage> {
             const SizedBox(height: 12),
             Row(
               children: [
-                DropdownButtonWidget(
-                  width: 250,
-                  items: const [
-                    DropdownItem(display: '整合包', value: '整合包'),
-                    DropdownItem(display: '模组', value: '模组'),
-                    DropdownItem(display: '资源包', value: '资源包'),
-                    DropdownItem(display: '数据包', value: '数据包'),
-                    DropdownItem(display: '着色器', value: '着色器'),
+                Row(
+                  children: [
+                    DropdownButtonWidget(
+                      width: 150,
+                      items: const [
+                        DropdownItem(display: '相关性', value: 'relevance'),
+                        DropdownItem(display: '下载量', value: 'downloads'),
+                        DropdownItem(display: '关注数', value: 'follows'),
+                        DropdownItem(display: '最新', value: 'newest'),
+                        DropdownItem(display: '最近更新', value: 'updated'),
+                      ],
+                      selectedValue: _selectedSortValue,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedSortValue = value;
+                        });
+                        _searchProjects();
+                      },
+                      colorScheme: colorScheme,
+                      prefix: '排序：',
+                    ),
+                    const SizedBox(width: 16),
+                    DropdownButtonWidget(
+                      width: 120,
+                      items: const [
+                        DropdownItem(display: '5', value: '5'),
+                        DropdownItem(display: '10', value: '10'),
+                        DropdownItem(display: '15', value: '15'),
+                        DropdownItem(display: '20', value: '20'),
+                        DropdownItem(display: '50', value: '50'),
+                        DropdownItem(display: '100', value: '100'),
+                      ],
+                      selectedValue: _selectedPageSize.toString(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedPageSize = int.tryParse(value) ?? 20;
+                        });
+                        _searchProjects();
+                      },
+                      colorScheme: colorScheme,
+                      prefix: '每页：',
+                    )
                   ],
-                  selectedValue: _selectedDropdownValue,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedDropdownValue = value;
-                      _selectedTabIndex = _tabs.indexOf(value);
-                    });
-                    _searchProjects();
-                  },
-                  colorScheme: colorScheme,
                 ),
-                const SizedBox(width: 12),
-                DropdownButtonWidget(
-                  width: 250,
-                  items: const [
-                    DropdownItem(display: '整合包', value: '整合包'),
-                    DropdownItem(display: '模组', value: '模组'),
-                    DropdownItem(display: '资源包', value: '资源包'),
-                    DropdownItem(display: '数据包', value: '数据包'),
-                    DropdownItem(display: '着色器', value: '着色器'),
-                  ],
-                  selectedValue: _selectedDropdownValue,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedDropdownValue = value;
-                      _selectedTabIndex = _tabs.indexOf(value);
-                    });
-                    _searchProjects();
-                  },
-                  colorScheme: colorScheme,
-                ),
+               
               ],
             ),
             const SizedBox(height: 12),

@@ -10,7 +10,7 @@ class DropdownItem {
 class DropdownButtonWidget extends StatefulWidget {
   final double? width;
   final double height;
-    final List<DropdownItem> items;
+  final List<DropdownItem> items;
   final ValueChanged<String> onChanged;
   final ColorScheme colorScheme;
   final String selectedValue;
@@ -21,7 +21,7 @@ class DropdownButtonWidget extends StatefulWidget {
     this.width,
     this.height = 40,
     required this.items,
-        required this.onChanged,
+    required this.onChanged,
     required this.colorScheme,
     required this.selectedValue,
     this.prefix,
@@ -89,69 +89,74 @@ class _DropdownButtonWidgetState extends State<DropdownButtonWidget>
     final offset = renderBox.localToGlobal(Offset.zero);
 
     return OverlayEntry(
-      builder: (context) => Positioned(
-        left: offset.dx,
-        width: size.width,
-        child: CompositedTransformFollower(
-          link: _layerLink,
-          offset: Offset(0.0, size.height),
-          showWhenUnlinked: false,
-          child: SizeTransition(
-            axisAlignment: -1.0,
-            sizeFactor: _expandAnimation,
-            child: Material(
-              elevation: 4.0,
-              borderRadius: _borderRadius(top: false, bottom: true),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: widget.colorScheme.primaryContainer,
+      builder:
+          (context) => Positioned(
+            left: offset.dx,
+            width: size.width,
+            child: CompositedTransformFollower(
+              link: _layerLink,
+              offset: Offset(0.0, size.height),
+              showWhenUnlinked: false,
+              child: SizeTransition(
+                axisAlignment: -1.0,
+                sizeFactor: _expandAnimation,
+                child: Material(
+                  elevation: 4.0,
                   borderRadius: _borderRadius(top: false, bottom: true),
-                ),
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  itemCount: widget.items.length,
-                  itemBuilder: (context, index) {
-                                        final item = widget.items[index];
-                    final isSelected = widget.selectedValue == item.value;
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: widget.colorScheme.primaryContainer,
+                      borderRadius: _borderRadius(top: false, bottom: true),
+                    ),
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      itemCount: widget.items.length,
+                      itemBuilder: (context, index) {
+                        final item = widget.items[index];
+                        final isSelected = widget.selectedValue == item.value;
 
-                    return Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                                                    widget.onChanged(item.value);
-                          _toggleDropdown();
-                        },
-                        splashFactory: NoSplash.splashFactory,
-                        highlightColor: Colors.transparent,
-                        hoverColor:
-                            widget.colorScheme.primary.withOpacity(0.05),
-                        child: Container(
-                          height: widget.height,
-                          alignment: Alignment.centerLeft,
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 16),
-                          color: isSelected
-                              ? widget.colorScheme.onTertiary
-                              : null,
-                          child:                             Text(
-                            item.display,
-                            style: TextStyle(
-                              color: isSelected
-                                  ? widget.colorScheme.primary
-                                  : widget.colorScheme.onSurfaceVariant,
+                        return Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              widget.onChanged(item.value);
+                              _toggleDropdown();
+                            },
+                            splashFactory: NoSplash.splashFactory,
+                            highlightColor: Colors.transparent,
+                            hoverColor: widget.colorScheme.primary.withOpacity(
+                              0.05,
+                            ),
+                            child: Container(
+                              height: widget.height,
+                              alignment: Alignment.centerLeft,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              color:
+                                  isSelected
+                                      ? widget.colorScheme.onTertiary
+                                      : null,
+                              child: Text(
+                                item.display,
+                                style: TextStyle(
+                                  color:
+                                      isSelected
+                                          ? widget.colorScheme.primary
+                                          : widget.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ),
     );
   }
 
@@ -181,8 +186,8 @@ class _DropdownButtonWidgetState extends State<DropdownButtonWidget>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                                Text(
-                  '${widget.prefix ?? ''}${widget.selectedValue}',
+                Text(
+                  '${widget.prefix ?? ''}${widget.items.firstWhere((item) => item.value == widget.selectedValue, orElse: () => DropdownItem(display: widget.selectedValue, value: widget.selectedValue)).display}',
                   style: selectedTextStyle,
                 ),
                 Transform.rotate(
