@@ -25,7 +25,7 @@ class AppCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: colorScheme.primary,
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -34,7 +34,19 @@ class AppCard extends StatelessWidget {
             width: 94,
             height: 94,
             decoration: BoxDecoration(
+              color: colorScheme.onPrimary,
+              border: Border.all(
+                color: colorScheme.onTertiaryContainer.withOpacity(0.1),
+                width: 1,
+              ),
               borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
               image: DecorationImage(
                 image: NetworkImage(iconUrl),
                 fit: BoxFit.cover,

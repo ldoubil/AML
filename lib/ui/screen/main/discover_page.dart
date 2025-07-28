@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:aml/api/modrinth_api.dart';
+import 'package:aml/ui/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/animated_tab_bar.dart';
 import '../../widgets/app_card.dart';
@@ -37,7 +36,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
           facets: [
             ['project_type:$currentFacet'],
           ],
-          limit: 100
+          limit: 100,
         )
         .then((value) {
           setState(() {
@@ -83,11 +82,22 @@ class _DiscoverPageState extends State<DiscoverPage> {
               },
               colorScheme: colorScheme,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
+            SearchBarWidget(colorScheme: colorScheme),
+            const SizedBox(height: 12),
             Expanded(
               child:
                   _isLoading
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircularProgressIndicator(),
+                            SizedBox(height: 16),
+                            Text('正在加载中...', style: TextStyle(fontSize: 14)),
+                          ],
+                        ),
+                      )
                       : _modrinthSearchResultList == null ||
                           _modrinthSearchResultList!.hits.isEmpty
                       ? const Center(child: Text('暂无数据'))
