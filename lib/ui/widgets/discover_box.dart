@@ -57,61 +57,111 @@ class DiscoverBox extends StatelessWidget {
               flex: 55,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Expanded(
-                   child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: [
-                    // 图标和名称
-                    Row(
-                      children: [
-                        // 这里可以放置图标，如果ModrinthProject有图标字段的话
-                        // Icon(Icons.category, size: 20),
-                        // const SizedBox(width: 4),
-                        Expanded(
-                           child: Text(
-                             result.title,
-                             style: TextStyle(
-                                 color: colorScheme.onPrimaryContainer, fontSize: 16),
-                             maxLines: 1,
-                             overflow: TextOverflow.ellipsis,
-                           ),
-                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    // 简介
-                    Text(
-                      result.description,
-                      style: TextStyle(
-                          color: colorScheme.onPrimaryContainer.withOpacity(0.7),
-                          fontSize: 12),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const Spacer(), // 填充剩余空间，将下面的信息推到底部
-                    // 下载次数和收藏次数
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Downloads: ${result.downloads}',
-                          style: TextStyle(
-                              color: colorScheme.onPrimaryContainer.withOpacity(0.6),
-                              fontSize: 10),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 图标和名称
+                      Row(
+                        children: [
+                          Container(
+                            width: 45,
+                            height: 45,
+                            decoration: BoxDecoration(
+                              color: colorScheme.primaryContainer.withOpacity(
+                                0.5,
+                              ),
+                              border: Border.all(
+                                color: colorScheme.outline,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: colorScheme.shadow.withOpacity(0.4),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child:
+                                result.iconUrl != null &&
+                                        result.iconUrl!.isNotEmpty
+                                    ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(7),
+                                      child: Image.network(
+                                        result.iconUrl!,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                    : Icon(
+                                      Icons.extension,
+                                      color: colorScheme.onPrimaryContainer,
+                                    ),
+                          ),
+                          SizedBox(width: 10,),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                result.title,
+                                style: TextStyle(
+                                  color: colorScheme.onPrimaryContainer,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 16,
+                                ),
+                                maxLines: 2,
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.clip,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      // 简介
+                      Text(
+                        result.description,
+                        style: TextStyle(
+                          color: colorScheme.onPrimaryContainer.withOpacity(
+                            0.7,
+                          ),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800
                         ),
-                        Text(
-                          'Follows: ${result.follows}',
-                          style: TextStyle(
-                              color: colorScheme.onPrimaryContainer.withOpacity(0.6),
-                              fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ],
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const Spacer(), // 填充剩余空间，将下面的信息推到底部
+                      // 下载次数和收藏次数
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Downloads: ${result.downloads}',
+                            style: TextStyle(
+                              color: colorScheme.onPrimaryContainer.withOpacity(
+                                0.6,
+                              ),
+                              fontSize: 10,
+                            ),
+                          ),
+                          Text(
+                            'Follows: ${result.follows}',
+                            style: TextStyle(
+                              color: colorScheme.onPrimaryContainer.withOpacity(
+                                0.6,
+                              ),
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-        )],
+          
+          ],
         ),
       ),
     );

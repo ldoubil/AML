@@ -28,7 +28,9 @@ class _HomePageState extends State<HomePage> {
     try {
       final result = await ModrinthApiService.searchProjects(
         query: '',
-        facets: [['project_type:modpack']],
+        facets: [
+          ['project_type:modpack'],
+        ],
         index: 'follows',
         limit: 3,
       );
@@ -47,7 +49,9 @@ class _HomePageState extends State<HomePage> {
     try {
       final result = await ModrinthApiService.searchProjects(
         query: '',
-        facets: [['project_type:mod']],
+        facets: [
+          ['project_type:mod'],
+        ],
         index: 'follows',
         limit: 3,
       );
@@ -61,6 +65,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -112,57 +117,51 @@ class _HomePageState extends State<HomePage> {
                   HoverTextWithArrow(text: "发现更多整合包"),
                   const SizedBox(height: 16),
                   _isLoadingModpacks
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
+                      ? const Center(child: CircularProgressIndicator())
                       : _modpackResult == null || _modpackResult!.hits.isEmpty
-                          ? const Center(child: Text('暂无数据'))
-                          : GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 390, // 每个网格最大宽度
-                                    childAspectRatio: 320 / 310, // 宽高比 (320:310)
-                                    crossAxisSpacing: 8, // 水平间距
-                                    mainAxisSpacing: 8, // 垂直间距
-                                  ),
-                              itemCount: _modpackResult?.hits.length ?? 0,
-                              itemBuilder: (context, index) {
-                                final project = _modpackResult!.hits[index];
-                                return DiscoverBox(
-                                  result: project,
-                                );
-                              },
+                      ? const Center(child: Text('暂无数据'))
+                      : GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 390, // 每个网格最大宽度
+                              childAspectRatio: 320 / 310, // 宽高比 (320:310)
+                              crossAxisSpacing: 8, // 水平间距
+                              mainAxisSpacing: 8, // 垂直间距
                             ),
-
+                        itemCount: _modpackResult?.hits.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final project = _modpackResult!.hits[index];
+                          return DiscoverBox(result: project);
+                        },
+                      ),
                   const SizedBox(height: 16),
-                  HoverTextWithArrow(text: "发现更多MOD"),
+                  HoverTextWithArrow(text: "发现更多MOD",onTap: () {
+                    
+                  },),
                   const SizedBox(height: 16),
                   _isLoadingMods
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
+                      ? const Center(child: CircularProgressIndicator())
                       : _modResult == null || _modResult!.hits.isEmpty
-                          ? const Center(child: Text('暂无数据'))
-                          : GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 390, // 每个网格最大宽度
-                                    childAspectRatio: 320 / 310, // 宽高比 (320:310)
-                                    crossAxisSpacing: 8, // 水平间距
-                                    mainAxisSpacing: 8, // 垂直间距
-                                  ),
-                              itemCount: _modResult?.hits.length ?? 0,
-                              itemBuilder: (context, index) {
-                                final project = _modResult!.hits[index];
-                                return DiscoverBox(
-                                  result: project,
-                                );
-                              },
+                      ? const Center(child: Text('暂无数据'))
+                      : GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 390, // 每个网格最大宽度
+                              childAspectRatio: 320 / 310, // 宽高比 (320:310)
+                              crossAxisSpacing: 8, // 水平间距
+                              mainAxisSpacing: 8, // 垂直间距
                             ),
+                        itemCount: _modResult?.hits.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final project = _modResult!.hits[index];
+                          return DiscoverBox(result: project);
+                        },
+                      ),
+                  SizedBox(height: 30),
                 ],
               ),
             ),
