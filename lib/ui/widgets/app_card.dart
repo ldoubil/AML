@@ -48,7 +48,9 @@ class AppCard extends StatelessWidget {
                 ),
               ],
               image: DecorationImage(
-                image: NetworkImage(iconUrl),
+                image: Uri.tryParse(iconUrl)?.hasAbsolutePath ?? false 
+                  ? NetworkImage(iconUrl) 
+                  : const AssetImage('assets/logo.png') as ImageProvider,
                 fit: BoxFit.cover,
               ),
             ),

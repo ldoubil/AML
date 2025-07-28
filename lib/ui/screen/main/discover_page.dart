@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/animated_tab_bar.dart';
 import '../../widgets/app_card.dart';
 import 'package:aml/ui/widgets/dropdown_button_widget.dart';
+import 'package:aml/ui/widgets/pagination_widget.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -16,6 +17,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
   int _selectedTabIndex = 0;
   String _selectedSortValue = 'relevance';
   int _selectedPageSize = 20; 
+  final List<int> _currentPages = [1, 1, 1, 1, 1]; // 为每个标签页保存当前页码
+  int get _currentPage => _currentPages[_selectedTabIndex]; // 获取当前标签页的页码
   final List<String> _tabs = ['整合包', '模组', '资源包', '数据包', '着色器'];
   final List<String> _tabsFacets = [
     'modpack',
@@ -44,6 +47,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
           ],
           index: _selectedSortValue,
           limit: _selectedPageSize,
+          offset: (_currentPage - 1) * _selectedPageSize, // 新增 offset 参数
         )
         .then((value) {
           setState(() {
@@ -101,6 +105,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
             const SizedBox(height: 12),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
@@ -146,7 +151,18 @@ class _DiscoverPageState extends State<DiscoverPage> {
                     )
                   ],
                 ),
-               
+                const Spacer(),
+                PaginationWidget(
+                  totalPages: (_modrinthSearchResultList?.totalHits ?? 0) ~/ _selectedPageSize + 1,
+                  currentPage: _currentPage,
+                  onPageChanged: (page) {
+                    setState(() {
+                      _currentPages[_selectedTabIndex] = page;
+                  });
+                  _searchProjects();
+                  },
+                  colorScheme: colorScheme,
+                )
               ],
             ),
             const SizedBox(height: 12),
