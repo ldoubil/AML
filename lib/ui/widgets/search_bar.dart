@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatefulWidget {
-  const SearchBarWidget({super.key, required this.colorScheme});
+  const SearchBarWidget({super.key, required this.colorScheme, this.onChanged});
 
   final ColorScheme colorScheme;
+  final ValueChanged<String>? onChanged;
 
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -11,12 +12,14 @@ class SearchBarWidget extends StatefulWidget {
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   late FocusNode _focusNode;
+  late TextEditingController _controller;
   bool _isFocused = false;
 
   @override
   void initState() {
     super.initState();
     _focusNode = FocusNode();
+    _controller = TextEditingController();
     _focusNode.addListener(() {
       setState(() {
         _isFocused = _focusNode.hasFocus;
@@ -27,6 +30,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
   @override
   void dispose() {
     _focusNode.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -50,10 +54,21 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           ),
         ),
         child: TextField(
+          controller: _controller,
           focusNode: _focusNode,
+          onChanged: widget.onChanged,
           decoration: InputDecoration(
             hintText: '搜索',
             prefixIcon: const Icon(Icons.search),
+            suffixIcon: _controller.text.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      _controller.clear();
+                      widget.onChanged?.call('');
+                    },
+                  )
+                : null,
             border: InputBorder.none,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,

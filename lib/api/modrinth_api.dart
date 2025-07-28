@@ -1,5 +1,6 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:aml/api/cache_service.dart';
 
 // 搜索结果数据模型
 class ModrinthSearchResult {
@@ -115,6 +116,7 @@ class ModrinthProject {
 // Modrinth API 服务类
 class ModrinthApiService {
   static const String baseUrl = 'https://api.modrinth.com/v2';
+  static final CacheService _cacheService = CacheService();
   
   /// 搜索项目
   /// 
@@ -129,7 +131,15 @@ class ModrinthApiService {
     int offset = 0,
     String? index,
     List<List<String>>? facets,
+    Duration cacheDuration = const Duration(seconds: 60),
   }) async {
+    final cacheKey = 'searchProjects_query=$query&limit=$limit&offset=$offset&index=$index&facets=${jsonEncode(facets)}';
+
+    final cachedData = _cacheService.get(cacheKey, cacheDuration);
+    if (cachedData != null) {
+      return ModrinthSearchResult.fromJson(jsonDecode(cachedData));
+    }
+
     try {
       // 构建查询参数
       final Map<String, String> queryParams = {
@@ -147,6 +157,8 @@ class ModrinthApiService {
       
       if (facets != null && facets.isNotEmpty) {
         queryParams['facets'] = jsonEncode(facets);
+        // 打印queryParams['facets']
+        print(queryParams['facets']);
       }
       
       // 构建URL
@@ -165,6 +177,7 @@ class ModrinthApiService {
       
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
+        _cacheService.put(cacheKey, response.body);
         return ModrinthSearchResult.fromJson(jsonData);
       } else {
         throw Exception('Failed to search projects: ${response.statusCode}');

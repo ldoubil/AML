@@ -21,6 +21,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
     'datapack',
     'shader',
   ];
+  //
+  String searchName = "";
   // 储存 ModrinthSearchResult list
   ModrinthSearchResult? _modrinthSearchResultList;
   bool _isLoading = true;
@@ -33,6 +35,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
     final currentFacet = _tabsFacets[_selectedTabIndex];
     ModrinthApiService.searchProjects(
+          query: searchName,
           facets: [
             ['project_type:$currentFacet'],
           ],
@@ -83,7 +86,15 @@ class _DiscoverPageState extends State<DiscoverPage> {
               colorScheme: colorScheme,
             ),
             const SizedBox(height: 12),
-            SearchBarWidget(colorScheme: colorScheme),
+            SearchBarWidget(
+              colorScheme: colorScheme,
+              onChanged: (value) {
+                setState(() {
+                  searchName = value;
+                });
+                _searchProjects();
+              },
+            ),
             const SizedBox(height: 12),
             Expanded(
               child:
