@@ -125,6 +125,7 @@ class ModrinthApiService {
   /// [offset] 跳过的结果数量 (默认: 0)
   /// [index] 搜索索引 (可选: relevance, downloads, follows, newest, updated)
   /// [facets] 搜索过滤器 (可选)
+  /// [cacheDuration] 缓存时间 (默认: 60秒)
   static Future<ModrinthSearchResult> searchProjects({
     String? query,
     int limit = 10,

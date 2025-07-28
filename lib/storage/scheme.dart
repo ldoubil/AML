@@ -105,7 +105,7 @@ const ColorScheme darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Color(0xFF26292f),
   onPrimary: Color(0xFF2e3137),
-  primaryContainer: Color(0xFF3873BA),
+  primaryContainer: Color(0xFF33363d),
   onPrimaryContainer: Color(0xFFFFFFFF),
   primaryFixed: Color(0xFFBFCFE8),
   primaryFixedDim: Color(0xFF8CA8D3),
@@ -119,7 +119,7 @@ const ColorScheme darkColorScheme = ColorScheme(
   secondaryFixedDim: Color(0xFFF3C08C),
   onSecondaryFixed: Color(0xFF4F2800),
   onSecondaryFixedVariant: Color(0xFF613000),
-  tertiary: Color(0xFF494f58),  //悬停背景颜色
+  tertiary: Color(0xFF494f58), //悬停背景颜色
   onTertiary: Color.fromARGB(255, 21, 255, 119), //激活
   tertiaryContainer: Color(0xFFb0bac5), //按钮默认文本
   onTertiaryContainer: Color(0xFFFFFFFF), //按钮悬浮样式

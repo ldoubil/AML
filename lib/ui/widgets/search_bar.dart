@@ -39,7 +39,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: widget.colorScheme.primary,
+        color: widget.colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(12),
       ),
       child: AnimatedContainer(

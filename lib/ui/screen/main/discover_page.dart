@@ -3,6 +3,7 @@ import 'package:aml/ui/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/animated_tab_bar.dart';
 import '../../widgets/app_card.dart';
+import 'package:aml/ui/widgets/dropdown_button_widget.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -14,6 +15,7 @@ class DiscoverPage extends StatefulWidget {
 class _DiscoverPageState extends State<DiscoverPage> {
   int _selectedTabIndex = 0;
   final List<String> _tabs = ['整合包', '模组', '资源包', '数据包', '着色器'];
+  String _selectedDropdownValue = '整合包'; // Add this line
   final List<String> _tabsFacets = [
     'modpack',
     'mod',
@@ -39,7 +41,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
           facets: [
             ['project_type:$currentFacet'],
           ],
-          limit: 100,
         )
         .then((value) {
           setState(() {
@@ -68,8 +69,8 @@ class _DiscoverPageState extends State<DiscoverPage> {
     final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22),
-      child: Align(
-        alignment: Alignment.centerLeft,
+      child: SizedBox(
+        width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -96,39 +97,81 @@ class _DiscoverPageState extends State<DiscoverPage> {
               },
             ),
             const SizedBox(height: 12),
-            Expanded(
-              child:
-                  _isLoading
-                      ? const Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircularProgressIndicator(),
-                            SizedBox(height: 16),
-                            Text('正在加载中...', style: TextStyle(fontSize: 14)),
-                          ],
-                        ),
-                      )
-                      : _modrinthSearchResultList == null ||
-                          _modrinthSearchResultList!.hits.isEmpty
-                      ? const Center(child: Text('暂无数据'))
-                      : ListView.builder(
-                        itemCount: _modrinthSearchResultList!.hits.length,
-                        itemBuilder: (context, index) {
-                          final project =
-                              _modrinthSearchResultList!.hits[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: AppCard(
-                              title: project.title,
-                              description: project.description,
-                              downloadCount: '${project.downloads} 下载',
-                              iconUrl: project.iconUrl ?? '',
-                            ),
-                          );
-                        },
-                      ),
+            Row(
+              children: [
+                DropdownButtonWidget(
+                  width: 250,
+                  items: const [
+                    DropdownItem(display: '整合包', value: '整合包'),
+                    DropdownItem(display: '模组', value: '模组'),
+                    DropdownItem(display: '资源包', value: '资源包'),
+                    DropdownItem(display: '数据包', value: '数据包'),
+                    DropdownItem(display: '着色器', value: '着色器'),
+                  ],
+                  selectedValue: _selectedDropdownValue,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedDropdownValue = value;
+                      _selectedTabIndex = _tabs.indexOf(value);
+                    });
+                    _searchProjects();
+                  },
+                  colorScheme: colorScheme,
+                ),
+                const SizedBox(width: 12),
+                DropdownButtonWidget(
+                  width: 250,
+                  items: const [
+                    DropdownItem(display: '整合包', value: '整合包'),
+                    DropdownItem(display: '模组', value: '模组'),
+                    DropdownItem(display: '资源包', value: '资源包'),
+                    DropdownItem(display: '数据包', value: '数据包'),
+                    DropdownItem(display: '着色器', value: '着色器'),
+                  ],
+                  selectedValue: _selectedDropdownValue,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedDropdownValue = value;
+                      _selectedTabIndex = _tabs.indexOf(value);
+                    });
+                    _searchProjects();
+                  },
+                  colorScheme: colorScheme,
+                ),
+              ],
             ),
+            const SizedBox(height: 12),
+            _isLoading
+                ? const Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 16),
+                      Text('正在加载中...', style: TextStyle(fontSize: 14)),
+                    ],
+                  ),
+                )
+                : _modrinthSearchResultList == null ||
+                    _modrinthSearchResultList!.hits.isEmpty
+                ? const Center(child: Text('暂无数据'))
+                : Expanded(
+                  child: ListView.builder(
+                    itemCount: _modrinthSearchResultList!.hits.length,
+                    itemBuilder: (context, index) {
+                      final project = _modrinthSearchResultList!.hits[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: AppCard(
+                          title: project.title,
+                          description: project.description,
+                          downloadCount: '${project.downloads} 下载',
+                          iconUrl: project.iconUrl ?? '',
+                        ),
+                      );
+                    },
+                  ),
+                ),
           ],
         ),
       ),
