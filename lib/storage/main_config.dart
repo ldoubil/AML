@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'discover_page.dart';
-import 'wardrobe_page.dart';
-import 'resource_page.dart';
+import '../ui/screen/main/home_page.dart';
+import '../ui/screen/main/discover_page.dart';
+import '../ui/screen/main/wardrobe_page.dart';
+import '../ui/screen/main/resource_page.dart';
 
 class MainPageConfig {
   final String id;
   final IconData icon;
   final String label;
   final Widget page;
+  final bool keepState;
 
   const MainPageConfig({
     required this.id,
     required this.icon,
     required this.label,
     required this.page,
+    this.keepState = false,
   });
 }
 
@@ -25,12 +27,14 @@ class MainConfig {
       icon: Icons.home_outlined,
       label: '首页',
       page: HomePage(),
+      keepState: true,
     ),
     MainPageConfig(
       id: 'discover',
       icon: Icons.explore_outlined,
       label: '发现',
       page: DiscoverPage(),
+      keepState: true,
     ),
     MainPageConfig(
       id: 'wardrobe',
