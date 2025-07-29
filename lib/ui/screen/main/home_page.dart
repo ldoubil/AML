@@ -1,3 +1,4 @@
+import 'package:aml/ui/widgets/download_example_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:aml/api/modrinth_api.dart';
 import '../../widgets/game_back_hover_card.dart';
@@ -137,9 +138,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                   const SizedBox(height: 16),
-                  HoverTextWithArrow(text: "发现更多MOD",onTap: () {
-                    
-                  },),
+                  HoverTextWithArrow(text: "发现更多MOD", onTap: () {}),
                   const SizedBox(height: 16),
                   _isLoadingMods
                       ? const Center(child: CircularProgressIndicator())

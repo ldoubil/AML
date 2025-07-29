@@ -16,7 +16,7 @@ class DiscoverPage extends StatefulWidget {
 class _DiscoverPageState extends State<DiscoverPage> {
   int _selectedTabIndex = 0;
   String _selectedSortValue = 'relevance';
-  int _selectedPageSize = 20; 
+  int _selectedPageSize = 20;
   final List<int> _currentPages = [1, 1, 1, 1, 1]; // 为每个标签页保存当前页码
   int get _currentPage => _currentPages[_selectedTabIndex]; // 获取当前标签页的页码
   final List<String> _tabs = ['整合包', '模组', '资源包', '数据包', '着色器'];
@@ -148,21 +148,24 @@ class _DiscoverPageState extends State<DiscoverPage> {
                       },
                       colorScheme: colorScheme,
                       prefix: '每页：',
-                    )
+                    ),
                   ],
                 ),
                 const Spacer(),
                 PaginationWidget(
-                  totalPages: (_modrinthSearchResultList?.totalHits ?? 0) ~/ _selectedPageSize + 1,
+                  totalPages:
+                      (_modrinthSearchResultList?.totalHits ?? 0) ~/
+                          _selectedPageSize +
+                      1,
                   currentPage: _currentPage,
                   onPageChanged: (page) {
                     setState(() {
                       _currentPages[_selectedTabIndex] = page;
-                  });
-                  _searchProjects();
+                    });
+                    _searchProjects();
                   },
                   colorScheme: colorScheme,
-                )
+                ),
               ],
             ),
             const SizedBox(height: 12),

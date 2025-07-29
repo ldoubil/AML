@@ -3,6 +3,7 @@ import '../ui/screen/main/home_page.dart';
 import '../ui/screen/main/discover_page.dart';
 import '../ui/screen/main/wardrobe_page.dart';
 import '../ui/screen/main/resource_page.dart';
+import '../ui/widgets/download_example_widget.dart';
 
 class MainPageConfig {
   final String id;
@@ -47,6 +48,12 @@ class MainConfig {
       icon: Icons.folder_outlined,
       label: '资源库',
       page: ResourcePage(),
+    ),
+    MainPageConfig(
+      id: 'download_example',
+      icon: Icons.download_outlined,
+      label: '下载示例',
+      page: DownloadExampleWidget(),
     ),
   ];
 }
