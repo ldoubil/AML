@@ -1,4 +1,3 @@
-import 'package:aml/ui/widgets/download_example_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:aml/api/modrinth_api.dart';
 import '../../widgets/game_back_hover_card.dart';
