@@ -1,7 +1,7 @@
 // 导入所需的包
+import 'package:aml/state/app_state.dart';
 import 'package:aml/ui/screen/main/status_bar.dart';
 import 'package:signals_flutter/signals_flutter.dart';
-import 'package:aml/store/app_store.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_shadow/flutter_inset_shadow.dart';
 import 'package:aml/storage/main_config.dart';
@@ -16,8 +16,8 @@ class MainScreen extends StatefulWidget {
 }
 
 // MainScreen的状态管理类
-class _MainScreenState extends State<MainScreen> with AutomaticKeepAliveClientMixin {
-  
+class _MainScreenState extends State<MainScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -28,7 +28,8 @@ class _MainScreenState extends State<MainScreen> with AutomaticKeepAliveClientMi
 
   Widget _getCurrentPage() {
     final currentPage = AppStore().currentPage.watch(context);
-    final selectedIndex = MainConfig.pages.indexWhere((page) => page.id == currentPage);
+    final selectedIndex =
+        MainConfig.pages.indexWhere((page) => page.id == currentPage);
 
     return IndexedStack(
       index: selectedIndex != -1 ? selectedIndex : 0,

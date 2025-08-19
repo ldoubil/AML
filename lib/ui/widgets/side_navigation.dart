@@ -1,6 +1,6 @@
+import 'package:aml/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
-import 'package:aml/store/app_store.dart';
 import 'package:aml/ui/widgets/nav_button.dart';
 import 'package:aml/ui/widgets/custom_button.dart';
 import 'package:aml/storage/main_config.dart';
@@ -27,7 +27,8 @@ class SideNavigation extends StatelessWidget {
             return NavButton(
               icon: pageConfig.icon,
               label: pageConfig.label,
-              isSelected: AppStore().currentPage.watch(context) == pageConfig.id,
+              isSelected:
+                  AppStore().currentPage.watch(context) == pageConfig.id,
               onTap: () => AppStore().currentPage.value = pageConfig.id,
             );
           }),
