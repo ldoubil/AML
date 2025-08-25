@@ -6,6 +6,7 @@ import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_shadow/flutter_inset_shadow.dart';
 import 'package:aml/storage/main_config.dart';
 import 'package:aml/ui/widgets/side_navigation.dart';
+import 'package:aml/ui/widgets/debug_console.dart';
 
 // 主屏幕Widget，使用StatefulWidget以管理状态
 class MainScreen extends StatefulWidget {
@@ -46,51 +47,63 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     super.build(context);
     final colorScheme = Theme.of(context).colorScheme;
+    final showDebug = AppStore().showDebugConsole.watch(context);
+
     return Scaffold(
-      backgroundColor: colorScheme.primary, // 设置浅灰色背景
+      backgroundColor: colorScheme.primary,
       appBar: const StatusBar(),
-      body: Row(
+      body: Stack(
         children: [
-          // 左侧菜单，固定宽度64
-          SideNavigation(
-            colorScheme: colorScheme,
-          ),
-          // 右侧内容区域，自适应宽度
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                boxShadow: [
-                  BoxShadow(
-                    // 阴影的偏移量，x轴1像素，y轴2像素
-                    offset: Offset(2, 2),
-                    // 阴影的模糊半径为5像素
-                    blurRadius: 6,
-                    // 阴影的扩散半径为2像素
-                    spreadRadius: 5,
-                    // 阴影颜色为纯黑色，完全不透明
-                    color: const Color.fromARGB(47, 0, 0, 0),
-                    // 设置为内阴影
-                    inset: true,
+          Row(
+            children: [
+              // 左侧菜单，固定宽度64
+              SideNavigation(
+                colorScheme: colorScheme,
+              ),
+              // 右侧内容区域，自适应宽度
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    boxShadow: const [
+                      BoxShadow(
+                        // 阴影的偏移量，x轴1像素，y轴2像素
+                        offset: Offset(2, 2),
+                        // 阴影的模糊半径为5像素
+                        blurRadius: 6,
+                        // 阴影的扩散半径为2像素
+                        spreadRadius: 5,
+                        // 阴影颜色为纯黑色，完全不透明
+                        color: Color.fromARGB(47, 0, 0, 0),
+                        // 设置为内阴影
+                        inset: true,
+                      ),
+                    ],
+                    border: Border(
+                      left: BorderSide(
+                        color: colorScheme.outline.withValues(alpha: 128),
+                        width: 1,
+                      ),
+                      top: BorderSide(
+                        color: colorScheme.outline.withValues(alpha: 128),
+                        width: 1,
+                      ),
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                    ),
                   ),
-                ],
-                border: Border(
-                  left: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 128),
-                    width: 1,
-                  ),
-                  top: BorderSide(
-                    color: colorScheme.outline.withValues(alpha: 128),
-                    width: 1,
-                  ),
-                ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
+                  child: _getCurrentPage(),
                 ),
               ),
-              child: _getCurrentPage(),
-            ),
+            ],
           ),
+          if (showDebug)
+            const Positioned(
+              right: 30,
+              bottom: 30,
+              child: DebugConsoleOverlay(),
+            ),
         ],
       ),
     );

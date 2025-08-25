@@ -43,7 +43,7 @@ class SideNavigation extends StatelessWidget {
             ),
           ),
           NavButton(
-            image: AssetImage('assets/logo.png'),
+            image: const AssetImage('assets/logo.png'),
             label: '设置',
             isSelected: AppStore().currentPage.watch(context) == 'settings',
             onTap: () => AppStore().currentPage.value = 'settings',
@@ -61,7 +61,7 @@ class SideNavigation extends StatelessWidget {
             icon: Icons.add_outlined,
             onTap: () {},
           ),
-          Spacer(),
+          const Spacer(),
           CustomButton(
             icon: Icons.tune_outlined,
             label: "设置",
@@ -74,7 +74,7 @@ class SideNavigation extends StatelessWidget {
               );
             },
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );

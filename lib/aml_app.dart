@@ -31,7 +31,7 @@ class _AmlAppState extends State<AmlApp> {
         colorScheme: darkColorScheme,
       ),
       themeMode: ThemeMode.dark, // 设置当前主题模式
-      home: MainScreen(),
+      home: const MainScreen(),
     );
   }
 }

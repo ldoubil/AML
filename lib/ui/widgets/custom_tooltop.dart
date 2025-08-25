@@ -253,29 +253,28 @@ class _CustomTooltipState extends State<CustomTooltip>
     }
 
     return OverlayEntry(
-      builder:
-          (context) => Positioned(
-            left: offset.dx,
-            top: offset.dy,
-            child: CompositedTransformFollower(
-              link: _layerLink,
-              showWhenUnlinked: false,
-              offset: tooltipOffset,
-              child: MouseRegion(
-                onEnter: (_) {
-                  _removeTimer?.cancel();
-                  _showTimer?.cancel();
-                },
-                onExit: (_) {
-                  _removeTooltip();
-                },
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: tooltipContent,
-                ),
-              ),
+      builder: (context) => Positioned(
+        left: offset.dx,
+        top: offset.dy,
+        child: CompositedTransformFollower(
+          link: _layerLink,
+          showWhenUnlinked: false,
+          offset: tooltipOffset,
+          child: MouseRegion(
+            onEnter: (_) {
+              _removeTimer?.cancel();
+              _showTimer?.cancel();
+            },
+            onExit: (_) {
+              _removeTooltip();
+            },
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: tooltipContent,
             ),
           ),
+        ),
+      ),
     );
   }
 }
@@ -289,10 +288,9 @@ class TrianglePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint =
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.fill;
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
 
     final path = Path();
 

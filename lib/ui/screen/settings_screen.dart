@@ -182,16 +182,16 @@ class _SettingsScreenState extends State<SettingsScreen>
         padding: EdgeInsets.zero,
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 84,
               width: double.infinity,
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Row(
                   children: [
-                    const SizedBox(width: 30),
-                    const Icon(Icons.settings, size: 25),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 30),
+                    Icon(Icons.settings, size: 25),
+                    SizedBox(width: 8),
                     Text(
                       '设置',
                       style: TextStyle(
@@ -218,12 +218,11 @@ class _SettingsScreenState extends State<SettingsScreen>
                       children: [
                         Expanded(
                           child: ListView(
-                            children:
-                                SettingsConfig.pages
-                                    .map(
-                                      (config) => _buildNavigationItem(config),
-                                    )
-                                    .toList(),
+                            children: SettingsConfig.pages
+                                .map(
+                                  (config) => _buildNavigationItem(config),
+                                )
+                                .toList(),
                           ),
                         ),
                         // 在底部添加应用信息

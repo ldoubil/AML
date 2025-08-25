@@ -458,9 +458,6 @@ class VersionInfo {
   /// 游戏主类 classpath
   final String mainClass;
 
-  /// （旧版）传递给游戏的参数
-  final String? minecraftArguments;
-
   /// 可运行该版本的 Minecraft Launcher 最低版本
   final int minimumLauncherVersion;
 
@@ -489,7 +486,6 @@ class VersionInfo {
     required this.libraries,
     // this.logging,
     required this.mainClass,
-    this.minecraftArguments,
     required this.minimumLauncherVersion,
     required this.releaseTime,
     required this.time,

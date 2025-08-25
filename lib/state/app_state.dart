@@ -8,4 +8,5 @@ class AppStore {
   }
 
   final currentPage = signal('home');
+  final showDebugConsole = signal<bool>(true);
 }

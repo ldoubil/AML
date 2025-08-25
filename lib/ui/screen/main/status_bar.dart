@@ -33,7 +33,9 @@ class _StatusBarState extends State<StatusBar> {
               // 设置behavior确保即使在透明区域也能捕获手势事件
               behavior: HitTestBehavior.opaque,
               onPanStart: (details) {
-                if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+                if (Platform.isWindows ||
+                    Platform.isMacOS ||
+                    Platform.isLinux) {
                   windowManager.startDragging();
                 }
               },
@@ -58,7 +60,7 @@ class _StatusBarState extends State<StatusBar> {
                           shaderCallback: (bounds) => LinearGradient(
                             colors: [colorScheme.error, colorScheme.tertiary],
                           ).createShader(bounds),
-                          child: Text(
+                          child: const Text(
                             "ASTRAL MCL",
                             style: TextStyle(
                               fontSize: 18,
@@ -75,6 +77,13 @@ class _StatusBarState extends State<StatusBar> {
               ),
             ),
           ),
+          const _DownloaderStatusButton(),
+          // 占位 15宽度
+          const SizedBox(width: 15),
+          // 游戏状态显示
+          const _GameStatus(),
+          // 占位 15宽度
+          const SizedBox(width: 15),
           // 最小化按钮
           CustomButton(
             icon: Icons.horizontal_rule,
@@ -85,7 +94,7 @@ class _StatusBarState extends State<StatusBar> {
             },
           ),
           // 最大化/还原按钮
-          _MaximizeButton(),
+          const _MaximizeButton(),
           // 关闭按钮
           CustomButton(
             icon: Icons.close,
@@ -99,6 +108,72 @@ class _StatusBarState extends State<StatusBar> {
           ),
         ],
       ),
+    );
+  }
+}
+
+// _GameStatus
+class _GameStatus extends StatefulWidget {
+  const _GameStatus();
+
+  @override
+  State<_GameStatus> createState() => _GameStatusState();
+}
+
+class _GameStatusState extends State<_GameStatus> {
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: colorScheme.tertiaryContainer.withAlpha(100),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.videogame_asset,
+              color: colorScheme.tertiaryContainer.withAlpha(100)),
+          const SizedBox(width: 8),
+          Text(
+            "游戏状态：运行中",
+            style: TextStyle(
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// 下载器状态按钮
+class _DownloaderStatusButton extends StatefulWidget {
+  const _DownloaderStatusButton();
+
+  @override
+  State<_DownloaderStatusButton> createState() =>
+      _DownloaderStatusButtonState();
+}
+
+class _DownloaderStatusButtonState extends State<_DownloaderStatusButton> {
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return CustomButton(
+      icon: Icons.download,
+      size: ButtonSize.medium,
+      hoverIconColor: colorScheme.onTertiary.withAlpha(200),
+      IconColor: colorScheme.onTertiary.withAlpha(200),
+      onTap: () {
+        // TODO: Implement download functionality
+      },
     );
   }
 }
@@ -129,7 +204,7 @@ class _MaximizeButtonState extends State<_MaximizeButton> with WindowListener {
     windowManager.removeListener(this);
     super.dispose();
   }
-  
+
   // 窗口最大化事件回调
   @override
   void onWindowMaximize() {
@@ -137,7 +212,7 @@ class _MaximizeButtonState extends State<_MaximizeButton> with WindowListener {
       _isMaximized = true;
     });
   }
-  
+
   // 窗口还原事件回调
   @override
   void onWindowUnmaximize() {

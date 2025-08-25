@@ -10,5 +10,6 @@ Future<void> main() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await WindowManagerUtils.initializeWindow();
   }
+  registerDebugCommands();
   runApp(const AmlApp());
 }

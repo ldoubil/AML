@@ -13,6 +13,7 @@ class CustomButton extends StatefulWidget {
   final VoidCallback onTap;
   final Color? hoverBackgroundColor;
   final Color? hoverIconColor;
+  final Color? IconColor;
   final String? label;
   final ButtonSize size; // 新增尺寸参数
   final VoidCallback? onMouseEnter; // 鼠标进入回调
@@ -24,6 +25,7 @@ class CustomButton extends StatefulWidget {
     required this.onTap,
     this.hoverBackgroundColor,
     this.hoverIconColor,
+    this.IconColor,
     this.label,
     this.size = ButtonSize.large, // 默认大尺寸
     this.onMouseEnter,
@@ -120,7 +122,7 @@ class _CustomButtonState extends State<CustomButton>
     );
 
     _iconColorAnimation = ColorTween(
-      begin: colorScheme.tertiaryContainer,
+      begin: widget.IconColor ?? colorScheme.tertiaryContainer,
       end: widget.hoverIconColor ?? colorScheme.onTertiaryContainer,
     ).animate(
       CurvedAnimation(
@@ -144,10 +146,9 @@ class _CustomButtonState extends State<CustomButton>
 
   void _handleTapUp(TapUpDetails details) {
     // 计算已经过去的时间
-    final elapsedTime =
-        _tapDownTime != null
-            ? DateTime.now().difference(_tapDownTime!).inMilliseconds
-            : 0;
+    final elapsedTime = _tapDownTime != null
+        ? DateTime.now().difference(_tapDownTime!).inMilliseconds
+        : 0;
 
     // 确保动画至少播放0.1秒（100毫秒）
     const minAnimationTime = 100;
@@ -169,10 +170,9 @@ class _CustomButtonState extends State<CustomButton>
 
   void _handleTapCancel() {
     // 计算已经过去的时间
-    final elapsedTime =
-        _tapDownTime != null
-            ? DateTime.now().difference(_tapDownTime!).inMilliseconds
-            : 0;
+    final elapsedTime = _tapDownTime != null
+        ? DateTime.now().difference(_tapDownTime!).inMilliseconds
+        : 0;
 
     // 确保动画至少播放0.1秒（100毫秒）
     const minAnimationTime = 100;
@@ -218,16 +218,14 @@ class _CustomButtonState extends State<CustomButton>
                   animation: _hoverAnimationController,
                   builder: (context, child) {
                     return Transform.scale(
-                      scale:
-                          _animationController.status ==
-                                      AnimationStatus.forward ||
-                                  _animationController.status ==
-                                      AnimationStatus.completed
-                              ? _scaleAnimation
-                                  .value // 按下状态优先
-                              : (_isHovered
-                                  ? _backgroundScaleAnimation.value
-                                  : 1.0),
+                      scale: _animationController.status ==
+                                  AnimationStatus.forward ||
+                              _animationController.status ==
+                                  AnimationStatus.completed
+                          ? _scaleAnimation.value // 按下状态优先
+                          : (_isHovered
+                              ? _backgroundScaleAnimation.value
+                              : 1.0),
                       child: Container(
                         width: _buttonSize,
                         height: _buttonSize,
