@@ -1,32 +1,34 @@
 import 'package:flutter/material.dart';
 
-enum SearchBarSize { large, medium, small }
+enum InputBarSize { large, medium, small }
 
-class SearchBarWidget extends StatefulWidget {
-  const SearchBarWidget({
+class InputBarWidget extends StatefulWidget {
+  const InputBarWidget({
     super.key,
     required this.colorScheme,
     this.onChanged,
     this.hintText,
     this.prefixIcon,
-    this.size = SearchBarSize.large,
+    this.size = InputBarSize.large,
     this.tailIcon,
     this.tailIconOnTap,
+    this.obscureText = false,
   });
 
   final ColorScheme colorScheme;
   final ValueChanged<String>? onChanged;
   final String? hintText;
   final Widget? prefixIcon;
-  final SearchBarSize size;
+  final InputBarSize size;
   final Widget? tailIcon;
   final VoidCallback? tailIconOnTap;
+  final bool obscureText;
 
   @override
-  State<SearchBarWidget> createState() => _SearchBarWidgetState();
+  State<InputBarWidget> createState() => _InputBarWidgetState();
 }
 
-class _SearchBarWidgetState extends State<SearchBarWidget> {
+class _InputBarWidgetState extends State<InputBarWidget> {
   late FocusNode _focusNode;
   late TextEditingController _controller;
   bool _isFocused = false;
@@ -58,29 +60,29 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     EdgeInsets contentPadding;
     String hintText;
     switch (widget.size) {
-      case SearchBarSize.large:
+      case InputBarSize.large:
         height = 48;
         iconSize = 24;
         fontSize = 20;
         contentPadding =
-            const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12);
-        hintText = widget.hintText ?? '搜索';
+            const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10);
+        hintText = widget.hintText ?? '输入内容';
         break;
-      case SearchBarSize.medium:
+      case InputBarSize.medium:
         height = 35;
         iconSize = 20;
-        fontSize = 15;
+        fontSize = 18;
         contentPadding =
-            const EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6);
-        hintText = widget.hintText ?? '输入关键词';
+            const EdgeInsets.only(left: 12, right: 12, top: 2, bottom: 12);
+        hintText = widget.hintText ?? '请输入';
         break;
-      case SearchBarSize.small:
+      case InputBarSize.small:
         height = 20;
         iconSize = 16;
         fontSize = 12;
         contentPadding =
             const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2);
-        hintText = widget.hintText ?? '搜';
+        hintText = widget.hintText ?? '填';
         break;
     }
     return Container(
@@ -90,7 +92,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         borderRadius: BorderRadius.circular(12),
       ),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 140),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
@@ -105,6 +107,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           focusNode: _focusNode,
           onChanged: widget.onChanged,
           textAlign: TextAlign.left,
+          obscureText: widget.obscureText,
           decoration: InputDecoration(
             hintText: hintText,
             prefixIcon: widget.prefixIcon != null
@@ -115,35 +118,23 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                     child: widget.prefixIcon!,
                   )
                 : null,
-            suffixIcon: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (_controller.text.isNotEmpty)
-                  IconButton(
-                    icon: Icon(Icons.clear, size: iconSize),
-                    onPressed: () {
-                      _controller.clear();
-                      widget.onChanged?.call('');
-                    },
-                  ),
-                if (widget.tailIcon != null)
-                  GestureDetector(
+            suffixIcon: widget.tailIcon != null
+                ? GestureDetector(
                     onTap: widget.tailIconOnTap,
                     child: IconTheme(
                       data: IconThemeData(size: iconSize),
                       child: widget.tailIcon!,
                     ),
-                  ),
-              ],
-            ),
+                  )
+                : null,
             border: InputBorder.none,
             contentPadding: contentPadding,
           ),
           style: TextStyle(
             color: widget.colorScheme.tertiaryContainer,
             fontSize: fontSize,
-          ), // 文字颜色设为在主题色上可见的颜色
-          cursorColor: widget.colorScheme.onTertiaryContainer, // 设置光标颜色
+          ),
+          cursorColor: widget.colorScheme.onTertiaryContainer,
         ),
       ),
     );

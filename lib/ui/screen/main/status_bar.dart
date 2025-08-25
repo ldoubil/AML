@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:aml/state/progress_state.dart';
 import 'package:aml/ui/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
@@ -173,6 +174,9 @@ class _DownloaderStatusButtonState extends State<_DownloaderStatusButton> {
       IconColor: colorScheme.onTertiary.withAlpha(200),
       onTap: () {
         // TODO: Implement download functionality
+        // 切换下载状态
+        ProgressStore().progressVisibility.value =
+            !ProgressStore().progressVisibility.value;
       },
     );
   }

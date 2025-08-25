@@ -95,6 +95,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
             ),
             const SizedBox(height: 12),
             SearchBarWidget(
+                prefixIcon: const Icon(Icons.search),
               colorScheme: colorScheme,
               onChanged: (value) {
                 setState(() {

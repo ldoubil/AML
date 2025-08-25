@@ -7,7 +7,7 @@ class ProgressStore {
   factory ProgressStore() => _instance;
 
   final progressList = signal<List<ProgressItem>>([]);
-
+  final progressVisibility = signal<bool>(false);
   ProgressItem createProgressItem(String name) {
     final item = ProgressItem(
       name: name,
