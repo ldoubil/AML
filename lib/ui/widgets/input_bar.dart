@@ -13,6 +13,7 @@ class InputBarWidget extends StatefulWidget {
     this.tailIcon,
     this.tailIconOnTap,
     this.obscureText = false,
+    this.controller,
   });
 
   final ColorScheme colorScheme;
@@ -23,6 +24,7 @@ class InputBarWidget extends StatefulWidget {
   final Widget? tailIcon;
   final VoidCallback? tailIconOnTap;
   final bool obscureText;
+  final TextEditingController? controller;
 
   @override
   State<InputBarWidget> createState() => _InputBarWidgetState();
@@ -37,7 +39,7 @@ class _InputBarWidgetState extends State<InputBarWidget> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
-    _controller = TextEditingController();
+    _controller = widget.controller ?? TextEditingController();
     _focusNode.addListener(() {
       setState(() {
         _isFocused = _focusNode.hasFocus;
@@ -48,7 +50,10 @@ class _InputBarWidgetState extends State<InputBarWidget> {
   @override
   void dispose() {
     _focusNode.dispose();
-    _controller.dispose();
+    // 只有当controller是内部创建的时候才dispose
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 

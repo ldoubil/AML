@@ -1596,6 +1596,7 @@ dependencies = [
 name = "rust_lib_aml"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "ariadne",
  "bytes",
  "chrono",

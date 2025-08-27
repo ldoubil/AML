@@ -209,7 +209,7 @@ class _NavRectButtonState extends State<NavRectButton>
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-  }
+  } 
 
   @override
   void dispose() {
@@ -369,6 +369,7 @@ class _NavRectButtonState extends State<NavRectButton>
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     if (widget.icon != null)
                       AnimatedSwitcher(
@@ -394,15 +395,20 @@ class _NavRectButtonState extends State<NavRectButton>
                     if (widget.text != null) ...[
                       if (widget.icon != null || widget.image != null)
                         const SizedBox(width: 8),
-                      AnimatedDefaultTextStyle(
-                        duration: const Duration(milliseconds: 100),
-                        curve: Curves.easeInOut,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          color: currentTextColor,
+                      Flexible(
+                        child: AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 100),
+                          curve: Curves.easeInOut,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: currentTextColor,
+                          ),
+                          child: Text(
+                            widget.text!,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        child: Text(widget.text!),
                       ),
                     ],
                   ],

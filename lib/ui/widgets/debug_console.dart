@@ -8,15 +8,15 @@ class DebugCommandRegistry {
   factory DebugCommandRegistry() => _instance;
   DebugCommandRegistry._internal();
 
-  final Map<String, String Function(List<String> args)> _commands = {};
+  final Map<String, Future<String> Function(List<String> args)> _commands = {};
 
   DebugCommandRegistry register(
-      String name, String Function(List<String> args) handler) {
+      String name, Future<String> Function(List<String> args) handler) {
     _commands[name] = handler;
     return this;
   }
 
-  String execute(String input) {
+  Future<String> execute(String input) async {
     final parts =
         input.trim().split(RegExp(r'\s+')).map((e) => e.toString()).toList();
     if (parts.isEmpty || parts[0].isEmpty) return '请输入命令';
@@ -26,7 +26,7 @@ class DebugCommandRegistry {
     final handler = _commands[cmd];
     if (handler == null) return '未知命令: $cmd';
     try {
-      return handler(args);
+      return await handler(args);
     } catch (e) {
       return '命令执行错误: $e';
     }
@@ -55,15 +55,28 @@ class _DebugConsoleOverlayState extends State<DebugConsoleOverlay> {
   final ScrollController _scrollController = ScrollController();
   bool _minimized = false;
 
-  void _runCommand(String cmd) {
+  void _runCommand(String cmd) async {
     setState(() {
       _output.add('Aml> $cmd');
-      final result = DebugCommandRegistry().execute(cmd);
-      _output.add(result);
+      _output.add('执行中...');
     });
     _controller.clear();
     _suggestions = [];
     _selectedSuggestion = -1;
+    
+    try {
+      final result = await DebugCommandRegistry().execute(cmd);
+      setState(() {
+        _output.removeLast(); // 移除 "执行中..." 消息
+        _output.add(result);
+      });
+    } catch (e) {
+      setState(() {
+        _output.removeLast(); // 移除 "执行中..." 消息
+        _output.add('执行错误: $e');
+      });
+    }
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
