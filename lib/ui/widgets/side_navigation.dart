@@ -28,8 +28,8 @@ class SideNavigation extends StatelessWidget {
               icon: pageConfig.icon,
               label: pageConfig.label,
               isSelected:
-                  AppStore().currentPage.watch(context) == pageConfig.id,
-              onTap: () => AppStore().currentPage.value = pageConfig.id,
+                  AppState().currentPage.watch(context) == pageConfig.id,
+              onTap: () => AppState().currentPage.value = pageConfig.id,
             );
           }),
           // 添加一个带有上下边距的分割线
@@ -45,8 +45,8 @@ class SideNavigation extends StatelessWidget {
           NavButton(
             image: const AssetImage('assets/logo.png'),
             label: '设置',
-            isSelected: AppStore().currentPage.watch(context) == 'settings',
-            onTap: () => AppStore().currentPage.value = 'settings',
+            isSelected: AppState().currentPage.watch(context) == 'settings',
+            onTap: () => AppState().currentPage.value = 'settings',
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 10),

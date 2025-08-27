@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:aml/model/app_base_state.dart';
+import 'package:aml/state/app_state.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:archive/archive.dart';
@@ -392,14 +394,8 @@ class JavaDownloadUtil {
 
   /// 获取默认的 Java 安装目录
   static Future<String> _getDefaultJavaDir() async {
-    String homeDir;
-    if (Platform.isWindows) {
-      homeDir = Platform.environment['USERPROFILE'] ?? 'C:\\Users\\Default';
-    } else {
-      homeDir = Platform.environment['HOME'] ?? '/tmp';
-    }
-    
-    return path.join(homeDir, '.aml', 'java');
+    String homeDir = AppState().appDataDirectory.value ?? "";
+    return path.join(homeDir, 'java');
   }
 
   /// 获取系统最大内存 (KB)

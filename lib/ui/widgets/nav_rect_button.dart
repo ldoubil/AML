@@ -376,7 +376,7 @@ class _NavRectButtonState extends State<NavRectButton>
                         duration: const Duration(milliseconds: 100),
                         child: Icon(
                           widget.icon,
-                          key: ValueKey(currentTextColor),
+                          key: ValueKey('${widget.hashCode}_icon_$currentTextColor'),
                           size: 20,
                           color: currentTextColor,
                         ),
@@ -385,7 +385,7 @@ class _NavRectButtonState extends State<NavRectButton>
                       AnimatedSwitcher(
                         duration: const Duration(milliseconds: 100),
                         child: Image(
-                          key: ValueKey(currentTextColor),
+                          key: ValueKey('${widget.hashCode}_image_$currentTextColor'),
                           image: widget.image!,
                           width: 20,
                           height: 20,

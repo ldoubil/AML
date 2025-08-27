@@ -43,9 +43,9 @@ class AppDatabase {
 
   /// 初始化目录结构
   Future<void> _initializeDirectories() async {
-    // 获取应用文档目录
-    final appDocDir = await getApplicationDocumentsDirectory();
-    _dataDirectory = '${appDocDir.path}/AML';
+    // 获取应用数据目录（AppData）
+    final appDataDir = await getApplicationSupportDirectory();
+    _dataDirectory = '${appDataDir.path}/AML';
 
     // 创建主数据目录
     final dataDir = Directory(_dataDirectory);

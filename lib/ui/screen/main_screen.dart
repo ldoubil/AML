@@ -30,7 +30,7 @@ class _MainScreenState extends State<MainScreen>
   }
 
   Widget _getCurrentPage() {
-    final currentPage = AppStore().currentPage.watch(context);
+    final currentPage = AppState().currentPage.watch(context);
     final selectedIndex =
         MainConfig.pages.indexWhere((page) => page.id == currentPage);
 
@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     super.build(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final showDebug = AppStore().showDebugConsole.watch(context);
+    final showDebug = AppState().showDebugConsole.watch(context);
 
     return Scaffold(
       backgroundColor: colorScheme.primary,

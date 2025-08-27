@@ -1,11 +1,10 @@
 import 'package:hive/hive.dart';
-
 part 'app_base_state.g.dart';
 
 @HiveType(typeId: 0)
 class AppBaseState {
   @HiveField(0)
-  String? appDataDirectory;
+  String? appDataDirectory ;
 
   @HiveField(1)
   String? java8Directory;
@@ -17,7 +16,7 @@ class AppBaseState {
   String? java21Directory;
 
   AppBaseState({
-    this.appDataDirectory,
+    String? appDataDirectory,
     this.java8Directory,
     this.java17Directory,
     this.java21Directory,
@@ -37,3 +36,4 @@ class AppBaseState {
     );
   }
 }
+
