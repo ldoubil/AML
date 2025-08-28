@@ -1,4 +1,7 @@
 import 'package:aml/ui/widgets/custom_button.dart';
+import 'package:aml/ui/widgets/button_group_widget.dart';
+import 'package:aml/ui/widgets/input_bar.dart';
+import 'package:aml/ui/widgets/nav_rect_button.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
@@ -17,6 +20,9 @@ class _CreateNewInstanceState extends State<CreateNewInstance>
   late Animation<double> _opacityAnimation;
   late Animation<Offset> _translateAnimation;
   late Animation<Color?> _backgroundColorAnimation;
+
+  // 选中的版本类型
+  String _selectedVersionType = 'custom';
 
   @override
   void initState() {
@@ -77,7 +83,8 @@ class _CreateNewInstanceState extends State<CreateNewInstance>
         ),
         padding: EdgeInsets.zero,
         child: Column(
-          children: [ SizedBox(
+          children: [
+            SizedBox(
               height: 84,
               width: double.infinity,
               child: Align(
@@ -113,11 +120,124 @@ class _CreateNewInstanceState extends State<CreateNewInstance>
             Expanded(
               child: Row(
                 children: [
-                  
+                  const SizedBox(width: 30),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // 标题文本
+
+                        // 版本类型选择按钮组
+                        ButtonGroupWidget(
+                          items: const [
+                            ButtonGroupItem(
+                              text: '自定义',
+                              value: 'custom',
+                            ),
+                            ButtonGroupItem(
+                              text: '从文件导入',
+                              value: 'from_file',
+                            ),
+                            ButtonGroupItem(
+                              text: '从启动器导入',
+                              value: 'from_launcher',
+                            ),
+                          ],
+                          selectedValue: _selectedVersionType,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedVersionType = value;
+                            });
+                          },
+                          fitContent: true,
+                        ),
+                        const SizedBox(height: 12),
+                        Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(35),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            // 左侧图片容器
+                            Container(
+                              width: 94,
+                              height: 94,
+                              decoration: BoxDecoration(
+                                color: colorScheme.onPrimary,
+                                border: Border.all(
+                                  color: colorScheme.onTertiaryContainer
+                                      .withOpacity(0.1),
+                                  width: 1,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                                image: const DecorationImage(
+                                  image: AssetImage('assets/logo.png')
+                                      as ImageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            // 右侧按钮列
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                NavRectButton(
+                                    isSelected: false,
+                                    icon: Icons.upload_file,
+                                    defaultBackgroundColor:
+                                        colorScheme.onPrimary,
+                                    text: "选择图标",
+                                    label: "选择图标",
+                                    onTap: () {}),
+                                const SizedBox(height: 8),
+                                NavRectButton(
+                                    isSelected: false,
+                                    icon: Icons.delete_outline,
+                                    defaultBackgroundColor:
+                                        colorScheme.onPrimary,
+                                    text: "选择图标",
+                                    label: "取消设置",
+                                    onTap: () {}),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 18),
+                        const Text(
+                          '实例名称',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 9),
+                        InputBarWidget(
+                          colorScheme: Theme.of(context).colorScheme,
+                          size: InputBarSize.medium,
+                          hintText: '输入实例名称',
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 30),
                 ],
               ),
             ),
-            const SizedBox(height: 20),],
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );
