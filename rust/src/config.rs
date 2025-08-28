@@ -28,3 +28,5 @@ pub const CURRENT_NEOFORGE_FORMAT_VERSION: u32 = 0;
 // 通用格式版本
 pub const CURRENT_FORMAT_VERSION: usize = 0;
 
+/// Azul API 基础URL
+pub const AZUL_API_BASE_URL: &str = "https://api.azul.com/metadata/v1/zulu/packages";

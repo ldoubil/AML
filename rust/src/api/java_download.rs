@@ -12,13 +12,11 @@ use futures::StreamExt;
 use std::sync::Arc;
 use sysinfo::System;
 
+use crate::config::AZUL_API_BASE_URL;
+
 /// 配置常量
 mod config {
     use std::time::Duration;
-    
-    /// Azul API 基础URL
-    pub const AZUL_API_BASE_URL: &str = "https://api.azul.com/metadata/v1/zulu/packages";
-    
     /// 下载进度范围
     pub const PROGRESS_DOWNLOAD_START: f64 = 0.2;
     pub const PROGRESS_DOWNLOAD_END: f64 = 0.8;
@@ -30,7 +28,9 @@ mod config {
     pub const DOWNLOAD_TIMEOUT: Duration = Duration::from_secs(300);
     
     /// 重试配置
+    #[allow(dead_code)]
     pub const MAX_RETRIES: u32 = 3;
+    #[allow(dead_code)]
     pub const RETRY_DELAY: Duration = Duration::from_secs(2);
     
     /// 默认内存大小 (8GB in KB)
@@ -138,7 +138,7 @@ async fn fetch_java_packages(java_version: i32) -> Result<Vec<JavaPackage>> {
     
     let url = format!(
         "{}?arch={}&java_version={}&os={}&archive_type=zip&javafx_bundled=false&java_package_type=jre&page_size=1",
-        config::AZUL_API_BASE_URL, arch, java_version, os
+        AZUL_API_BASE_URL, arch, java_version, os
     );
     
     let response = client.get(&url).send().await?;
