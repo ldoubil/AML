@@ -1,4 +1,5 @@
 import 'package:aml/state/app_state.dart';
+import 'package:aml/ui/screen/create_new_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 import 'package:aml/ui/widgets/nav_button.dart';
@@ -59,7 +60,15 @@ class SideNavigation extends StatelessWidget {
           ),
           CustomButton(
             icon: Icons.add_outlined,
-            onTap: () {},
+            label: "添加",
+            onTap: () {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (_, __, ___) => const CreateNewInstance(),
+                ),
+              );
+            },
           ),
           const Spacer(),
           CustomButton(

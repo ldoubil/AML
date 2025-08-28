@@ -55,7 +55,6 @@ mod regex_cache {
         Regex::new(r#"version\s+"([^"]+)""#).unwrap()
     });
     
-
 }
 
 /// Java 运行时版本信息结构体

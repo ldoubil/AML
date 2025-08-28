@@ -11,6 +11,7 @@ enum ButtonSize {
 class CustomButton extends StatefulWidget {
   final IconData icon;
   final VoidCallback onTap;
+  final Color? backgroundColor;
   final Color? hoverBackgroundColor;
   final Color? hoverIconColor;
   final Color? IconColor;
@@ -23,6 +24,7 @@ class CustomButton extends StatefulWidget {
     super.key,
     required this.icon,
     required this.onTap,
+    this.backgroundColor,
     this.hoverBackgroundColor,
     this.hoverIconColor,
     this.IconColor,
@@ -112,7 +114,7 @@ class _CustomButtonState extends State<CustomButton>
 
     // 初始化颜色动画
     _backgroundColorAnimation = ColorTween(
-      begin: colorScheme.tertiary.withAlpha(0),
+      begin: widget.backgroundColor ?? colorScheme.tertiary.withAlpha(0),
       end: widget.hoverBackgroundColor ?? colorScheme.tertiary,
     ).animate(
       CurvedAnimation(
