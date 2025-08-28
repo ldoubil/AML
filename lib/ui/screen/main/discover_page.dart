@@ -1,8 +1,8 @@
 import 'package:aml/api/modrinth_api.dart';
 import 'package:aml/ui/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/animated_tab_bar.dart';
-import '../../widgets/app_card.dart';
+import 'package:aml/ui/widgets/animated_tab_bar.dart';
+import 'package:aml/ui/widgets/app_card.dart';
 import 'package:aml/ui/widgets/dropdown_button_widget.dart';
 import 'package:aml/ui/widgets/pagination_widget.dart';
 

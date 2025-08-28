@@ -10,21 +10,20 @@ import 'dart:io';
 // Java版本配置类
 class JavaVersionConfig {
   final int version;
-  final TextEditingController controller;
   final Signal<bool> isDownloading;
   final Signal<bool> isTesting;
+  final TextEditingController controller = TextEditingController();
   
   JavaVersionConfig({
     required this.version,
-    required this.controller,
     required this.isDownloading,
     required this.isTesting,
   });
   
   void dispose() {
-    controller.dispose();
     isDownloading.dispose();
     isTesting.dispose();
+    controller.dispose();
   }
 }
 
@@ -47,30 +46,25 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
     _javaConfigs = {
       21: JavaVersionConfig(
         version: 21,
-        controller: TextEditingController(text: _appStore.java21Directory.value),
         isDownloading: signal(false),
         isTesting: signal(false),
       ),
       17: JavaVersionConfig(
         version: 17,
-        controller: TextEditingController(text: _appStore.java17Directory.value),
         isDownloading: signal(false),
         isTesting: signal(false),
       ),
       8: JavaVersionConfig(
         version: 8,
-        controller: TextEditingController(text: _appStore.java8Directory.value),
         isDownloading: signal(false),
         isTesting: signal(false),
       ),
     };
     
-    // 为每个控制器添加监听器
-    _javaConfigs.forEach((version, config) {
-      config.controller.addListener(() {
-        _updateJavaPath(version, config.controller.text);
-      });
-    });
+    // 设置controller的初始值
+    for (int version in [21, 17, 8]) {
+      _javaConfigs[version]!.controller.text = _getJavaPath(version).value;
+    }
   }
 
   // 更新Java路径到signal状态
@@ -107,18 +101,25 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
         onProgress: (progress, message) {
         },
         onComplete: (success, result) {
-          if (!mounted) return;
-          
+          // 无论页面是否销毁，都要更新全局状态
           if (success && result != null) {
-            config.controller.text = result;
-            _showSnackBar('Java $version 安装成功！');
+            // 直接更新AppState，不依赖页面状态
+            _updateJavaPath(version, result);
+            // 只有页面未销毁时才显示SnackBar
+            if (mounted) {
+              _showSnackBar('Java $version 安装成功！');
+            }
           } else {
-            _showSnackBar('Java $version 安装失败！');
+            if (mounted) {
+              _showSnackBar('Java $version 安装失败！');
+            }
           }
         },
       );
     } catch (e) {
-      _showSnackBar('安装过程中发生错误: $e');
+      if (mounted) {
+        _showSnackBar('安装过程中发生错误: $e');
+      }
     } finally {
       if (mounted) {
         config.isDownloading.value = false;
@@ -138,7 +139,8 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
     try {
       final javaVersion = await JavaDownloadUtil.checkJavaInstallation();
       if (javaVersion != null) {
-        _javaConfigs[version]!.controller.text = javaVersion.path;
+        // 只更新AppState，UI会通过Watch自动响应
+        _updateJavaPath(version, javaVersion.path);
         _showSnackBar('找到系统Java: ${javaVersion.version}');
       } else {
         _showSnackBar('未找到系统Java安装');
@@ -158,7 +160,8 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
       );
 
       if (result != null && result.files.single.path != null) {
-        _javaConfigs[version]!.controller.text = result.files.single.path!;
+        // 只更新AppState，UI会通过Watch自动响应
+        _updateJavaPath(version, result.files.single.path!);
         _showSnackBar('Java路径已选择');
       }
     } catch (e) {
@@ -174,7 +177,8 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
     config.isTesting.value = true;
 
     try {
-      final javaPath = config.controller.text;
+      // 从AppState中获取Java路径，而不是从controller
+      final javaPath = _getJavaPath(version).value;
       if (javaPath.isEmpty) {
         _showSnackBar('请先设置Java路径');
         return;
@@ -210,24 +214,35 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
           ),
         ),
         const SizedBox(height: 5),
-        InputBarWidget(
-          colorScheme: Theme.of(context).colorScheme,
-          size: InputBarSize.medium,
-          hintText: 'Java $version 路径',
-          controller: config.controller,
-        ),
+        // 使用Watch监听AppState中的Java路径，当路径变化时更新controller的文本
+        Watch((context) {
+          final javaPath = _getJavaPath(version).watch(context);
+          // 只有当路径与当前controller文本不同时才更新，避免循环更新
+          if (config.controller.text != javaPath) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              config.controller.text = javaPath;
+            });
+          }
+          return InputBarWidget(
+            colorScheme: Theme.of(context).colorScheme,
+            size: InputBarSize.medium,
+            hintText: 'Java $version 路径',
+            onChanged: (value) => _updateJavaPath(version, value),
+            controller: config.controller,
+          );
+        }),
         const SizedBox(height: 5),
         Row(
           children: [
             Watch((context) => NavRectButton(
-                  text: config.isDownloading.value ? "下载中..." : "安装JAVA",
+                  text: config.isDownloading.watch(context) ? "下载中..." : "安装JAVA",
                   defaultBackgroundColor: const Color(0xFF33363D),
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  icon: config.isDownloading.value ? Icons.downloading : Icons.download,
+                  icon: config.isDownloading.watch(context) ? Icons.downloading : Icons.download,
                   isSelected: false,
                   onMouseEnter: () {},
                   onMouseExit: () {},
-                  onTap: config.isDownloading.value ? () {} : () => _installJava(version),
+                  onTap: config.isDownloading.watch(context) ? () {} : () => _installJava(version),
                 )),
             const SizedBox(width: 5),
             NavRectButton(
@@ -255,20 +270,34 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
             ),
             const SizedBox(width: 5),
             Watch((context) => NavRectButton(
-                  text: config.isTesting.value ? "测试中..." : "测试",
+                  text: config.isTesting.watch(context) ? "测试中..." : "测试",
                   defaultBackgroundColor: const Color(0xFF33363D),
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  icon: config.isTesting.value ? Icons.hourglass_empty : Icons.check_circle,
+                  icon: config.isTesting.watch(context) ? Icons.hourglass_empty : Icons.check_circle,
                   isSelected: false,
                   width: 80,
                   onMouseEnter: () {},
                   onMouseExit: () {},
-                  onTap: config.isTesting.value ? () {} : () => _testJava(version),
+                  onTap: config.isTesting.watch(context) ? () {} : () => _testJava(version),
                 )),
           ],
         ),
       ],
     );
+  }
+
+  // 获取对应版本的Java路径Signal
+  Signal<String> _getJavaPath(int version) {
+    switch (version) {
+      case 21:
+        return _appStore.java21Directory;
+      case 17:
+        return _appStore.java17Directory;
+      case 8:
+        return _appStore.java8Directory;
+      default:
+        throw ArgumentError('Unsupported Java version: $version');
+    }
   }
 
   @override

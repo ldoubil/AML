@@ -69,27 +69,25 @@ class _InputBarWidgetState extends State<InputBarWidget> {
         height = 48;
         iconSize = 24;
         fontSize = 20;
-        contentPadding =
-            const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10);
+        contentPadding = const EdgeInsets.symmetric(horizontal: 16);
         hintText = widget.hintText ?? '输入内容';
         break;
       case InputBarSize.medium:
         height = 35;
         iconSize = 20;
-        fontSize = 18;
-        contentPadding =
-            const EdgeInsets.only(left: 12, right: 12, top: 2, bottom: 12);
+        fontSize = 16;
+        contentPadding = const EdgeInsets.symmetric(horizontal: 12);
         hintText = widget.hintText ?? '请输入';
         break;
       case InputBarSize.small:
         height = 20;
         iconSize = 16;
         fontSize = 12;
-        contentPadding =
-            const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2);
+        contentPadding = const EdgeInsets.symmetric(horizontal: 8);
         hintText = widget.hintText ?? '填';
         break;
     }
+    
     return Container(
       height: height,
       decoration: BoxDecoration(
@@ -107,39 +105,42 @@ class _InputBarWidgetState extends State<InputBarWidget> {
             width: 4,
           ),
         ),
-        child: TextField(
-          controller: _controller,
-          focusNode: _focusNode,
-          onChanged: widget.onChanged,
-          textAlign: TextAlign.left,
-          obscureText: widget.obscureText,
-          decoration: InputDecoration(
-            hintText: hintText,
-            prefixIcon: widget.prefixIcon != null
-                ? IconTheme(
-                    data: IconThemeData(
-                        size: iconSize,
-                        color: widget.colorScheme.tertiaryContainer),
-                    child: widget.prefixIcon!,
-                  )
-                : null,
-            suffixIcon: widget.tailIcon != null
-                ? GestureDetector(
-                    onTap: widget.tailIconOnTap,
-                    child: IconTheme(
-                      data: IconThemeData(size: iconSize),
-                      child: widget.tailIcon!,
-                    ),
-                  )
-                : null,
-            border: InputBorder.none,
-            contentPadding: contentPadding,
+        child: Center(
+          child: TextField(
+            controller: _controller,
+            focusNode: _focusNode,
+            onChanged: widget.onChanged,
+            textAlign: TextAlign.left,
+            obscureText: widget.obscureText,
+            decoration: InputDecoration(
+              hintText: hintText,
+              prefixIcon: widget.prefixIcon != null
+                  ? IconTheme(
+                      data: IconThemeData(
+                          size: iconSize,
+                          color: widget.colorScheme.tertiaryContainer),
+                      child: widget.prefixIcon!,
+                    )
+                  : null,
+              suffixIcon: widget.tailIcon != null
+                  ? GestureDetector(
+                      onTap: widget.tailIconOnTap,
+                      child: IconTheme(
+                        data: IconThemeData(size: iconSize),
+                        child: widget.tailIcon!,
+                      ),
+                    )
+                  : null,
+              border: InputBorder.none,
+              contentPadding: contentPadding,
+              isDense: true,
+            ),
+            style: TextStyle(
+              color: widget.colorScheme.tertiaryContainer,
+              fontSize: fontSize,
+            ),
+            cursorColor: widget.colorScheme.onTertiaryContainer,
           ),
-          style: TextStyle(
-            color: widget.colorScheme.tertiaryContainer,
-            fontSize: fontSize,
-          ),
-          cursorColor: widget.colorScheme.onTertiaryContainer,
         ),
       ),
     );
