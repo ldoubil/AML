@@ -1,4 +1,5 @@
-import 'package:aml/model/app_base_state.dart';
+import 'dart:io';
+
 import 'package:aml/database/persistent_signal_extension.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:signals_flutter/signals_flutter.dart';
@@ -13,7 +14,9 @@ class AppState {
   final currentPage = signal('home');
   final showDebugConsole = signal<bool>(true);
   final appDataDirectory = signal<String?>(null);
-
+  // 软件资源目录
+  final resourceDirectory = signal("")..persistWith('app_settings', 'resourceDirectory');
+ 
   AppState._internal() {
     _initializeAppDataDirectory();
   }
@@ -21,6 +24,11 @@ class AppState {
   void _initializeAppDataDirectory() async {
     final directory = await getApplicationSupportDirectory();
     appDataDirectory.value = directory.path;
+    if (resourceDirectory.value.isEmpty && (resourceDirectory.value == "")) {
+        resourceDirectory.value = "${directory.path}\\resourceDirectory";
+        // 然后创建
+        await Directory(resourceDirectory.value).create(recursive: true);
+    }
   }
   final java8Directory = signal("")..persistWith('app_settings', 'java8Directory');
   final java17Directory = signal("")..persistWith('app_settings', 'java17Directory');

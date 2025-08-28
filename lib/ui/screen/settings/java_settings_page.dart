@@ -1,7 +1,7 @@
 import 'package:aml/ui/widgets/input_bar.dart';
 import 'package:aml/ui/widgets/nav_rect_button.dart';
-import 'package:aml/util/java_download.dart';
 import 'package:aml/state/app_state.dart';
+import 'package:aml/util/java_download_rust.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:signals_flutter/signals_flutter.dart';
@@ -96,9 +96,11 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
     config.isDownloading.value = true;
 
     try {
-      await JavaDownloadUtil.autoInstallJava(
+      await JavaDownloadRustUtil.autoInstallJava(
         version,
         onProgress: (progress, message) {
+          // 打印
+          print('安装进度: $progress, $message');
         },
         onComplete: (success, result) {
           // 无论页面是否销毁，都要更新全局状态
@@ -137,7 +139,7 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
   // 搜索Java
   Future<void> _searchJava(int version) async {
     try {
-      final javaVersion = await JavaDownloadUtil.checkJavaInstallation();
+      final javaVersion = await JavaDownloadRustUtil.checkJavaInstallation();
       if (javaVersion != null) {
         // 只更新AppState，UI会通过Watch自动响应
         _updateJavaPath(version, javaVersion.path);
@@ -184,7 +186,7 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
         return;
       }
 
-      final isValid = await JavaDownloadUtil.testJRE(javaPath, version);
+      final isValid = await JavaDownloadRustUtil.testJRE(javaPath, version);
       if (isValid) {
         _showSnackBar('Java $version 测试通过！');
       } else {

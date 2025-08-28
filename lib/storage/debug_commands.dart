@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:aml/ui/widgets/debug_console.dart';
 import 'package:aml/state/progress_state.dart';
-import 'package:aml/util/java_download.dart';
+import 'package:aml/util/java_download_rust.dart';
 
 void registerDebugCommands() {
   DebugCommandRegistry()
@@ -38,7 +38,7 @@ void registerDebugCommands() {
       if (args.isEmpty) return '用法: autoInstallJava 版本号';
       final javaVersion = int.tryParse(args[0]);
       if (javaVersion == null) return '版本号必须是数字';
-      final javaPath = await JavaDownloadUtil.autoInstallJava(javaVersion);
+      final javaPath = await JavaDownloadRustUtil.autoInstallJava(javaVersion);
       return '已安装 Java $javaVersion: $javaPath';
     });
 }
