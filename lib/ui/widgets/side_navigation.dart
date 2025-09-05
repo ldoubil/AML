@@ -1,6 +1,7 @@
+import 'package:aml/state/app_state.dart';
+import 'package:aml/ui/screen/create_new_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
-import 'package:aml/store/app_store.dart';
 import 'package:aml/ui/widgets/nav_button.dart';
 import 'package:aml/ui/widgets/custom_button.dart';
 import 'package:aml/storage/main_config.dart';
@@ -27,8 +28,9 @@ class SideNavigation extends StatelessWidget {
             return NavButton(
               icon: pageConfig.icon,
               label: pageConfig.label,
-              isSelected: AppStore().currentPage.watch(context) == pageConfig.id,
-              onTap: () => AppStore().currentPage.value = pageConfig.id,
+              isSelected:
+                  AppState().currentPage.watch(context) == pageConfig.id,
+              onTap: () => AppState().currentPage.value = pageConfig.id,
             );
           }),
           // 添加一个带有上下边距的分割线
@@ -42,10 +44,10 @@ class SideNavigation extends StatelessWidget {
             ),
           ),
           NavButton(
-            image: AssetImage('assets/logo.png'),
+            image: const AssetImage('assets/logo.png'),
             label: '设置',
-            isSelected: AppStore().currentPage.watch(context) == 'settings',
-            onTap: () => AppStore().currentPage.value = 'settings',
+            isSelected: AppState().currentPage.watch(context) == 'settings',
+            onTap: () => AppState().currentPage.value = 'settings',
           ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
@@ -58,9 +60,17 @@ class SideNavigation extends StatelessWidget {
           ),
           CustomButton(
             icon: Icons.add_outlined,
-            onTap: () {},
+            label: "添加",
+            onTap: () {
+              Navigator.of(context).push(
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (_, __, ___) => const CreateNewInstance(),
+                ),
+              );
+            },
           ),
-          Spacer(),
+          const Spacer(),
           CustomButton(
             icon: Icons.tune_outlined,
             label: "设置",
@@ -73,7 +83,7 @@ class SideNavigation extends StatelessWidget {
               );
             },
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );

@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
 
+enum SearchBarSize { large, medium, small }
+
 class SearchBarWidget extends StatefulWidget {
-  const SearchBarWidget({super.key, required this.colorScheme, this.onChanged});
+  const SearchBarWidget({
+    super.key,
+    required this.colorScheme,
+    this.onChanged,
+    this.hintText,
+    this.prefixIcon,
+    this.size = SearchBarSize.large,
+    this.tailIcon,
+    this.tailIconOnTap,
+  });
 
   final ColorScheme colorScheme;
   final ValueChanged<String>? onChanged;
+  final String? hintText;
+  final Widget? prefixIcon;
+  final SearchBarSize size;
+  final Widget? tailIcon;
+  final VoidCallback? tailIconOnTap;
 
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -36,8 +52,39 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    double height;
+    double iconSize;
+    double fontSize;
+    EdgeInsets contentPadding;
+    String hintText;
+    switch (widget.size) {
+      case SearchBarSize.large:
+        height = 48;
+        iconSize = 24;
+        fontSize = 20;
+        contentPadding =
+            const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 12);
+        hintText = widget.hintText ?? '搜索';
+        break;
+      case SearchBarSize.medium:
+        height = 35;
+        iconSize = 20;
+        fontSize = 15;
+        contentPadding =
+            const EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6);
+        hintText = widget.hintText ?? '输入关键词';
+        break;
+      case SearchBarSize.small:
+        height = 20;
+        iconSize = 16;
+        fontSize = 12;
+        contentPadding =
+            const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2);
+        hintText = widget.hintText ?? '搜';
+        break;
+    }
     return Container(
-      height: 48,
+      height: height,
       decoration: BoxDecoration(
         color: widget.colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(12),
@@ -57,26 +104,44 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           controller: _controller,
           focusNode: _focusNode,
           onChanged: widget.onChanged,
+          textAlign: TextAlign.left,
           decoration: InputDecoration(
-            hintText: '搜索',
-            prefixIcon: const Icon(Icons.search),
-            suffixIcon: _controller.text.isNotEmpty
-                ? IconButton(
-                    icon: const Icon(Icons.clear),
+            hintText: hintText,
+            prefixIcon: widget.prefixIcon != null
+                ? IconTheme(
+                    data: IconThemeData(
+                        size: iconSize,
+                        color: widget.colorScheme.tertiaryContainer),
+                    child: widget.prefixIcon!,
+                  )
+                : null,
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_controller.text.isNotEmpty)
+                  IconButton(
+                    icon: Icon(Icons.clear, size: iconSize),
                     onPressed: () {
                       _controller.clear();
                       widget.onChanged?.call('');
                     },
-                  )
-                : null,
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
+                  ),
+                if (widget.tailIcon != null)
+                  GestureDetector(
+                    onTap: widget.tailIconOnTap,
+                    child: IconTheme(
+                      data: IconThemeData(size: iconSize),
+                      child: widget.tailIcon!,
+                    ),
+                  ),
+              ],
             ),
+            border: InputBorder.none,
+            contentPadding: contentPadding,
           ),
           style: TextStyle(
             color: widget.colorScheme.tertiaryContainer,
+            fontSize: fontSize,
           ), // 文字颜色设为在主题色上可见的颜色
           cursorColor: widget.colorScheme.onTertiaryContainer, // 设置光标颜色
         ),

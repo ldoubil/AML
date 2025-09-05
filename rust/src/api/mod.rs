@@ -1,2 +1,2 @@
 pub mod simple;
-pub mod download;
+pub mod java_download;

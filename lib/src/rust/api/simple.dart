@@ -6,12 +6,4 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-/// 问候函数
-///
-/// # 参数
-/// * `name` - 要问候的人的名字
-///
-/// # 返回值
-/// * 返回一个包含问候语的字符串
-String greet({required String name}) =>
-    RustLib.instance.api.crateApiSimpleGreet(name: name);
+Future<void> initApp() => RustLib.instance.api.crateApiSimpleInitApp();
