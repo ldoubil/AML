@@ -960,7 +960,7 @@ packages:
       sha256: ddfa8d30d89985b96407efce8acbdd124701f96741f2d981ca860662f1c0dc02
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "14.3.1"
+    version: "15.0.0"
   watcher:
     dependency: transitive
     description:
@@ -1000,7 +1000,7 @@ packages:
       sha256: "2f3a14ca026957870cfd9c635b83507e0e51d8091568e90129fbf805aba7cade"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.4"
+    version: "3.1.0"
   win32:
     dependency: transitive
     description:

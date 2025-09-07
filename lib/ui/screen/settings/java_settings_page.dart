@@ -13,13 +13,13 @@ class JavaVersionConfig {
   final Signal<bool> isDownloading;
   final Signal<bool> isTesting;
   final TextEditingController controller = TextEditingController();
-  
+
   JavaVersionConfig({
     required this.version,
     required this.isDownloading,
     required this.isTesting,
   });
-  
+
   void dispose() {
     isDownloading.dispose();
     isTesting.dispose();
@@ -41,7 +41,7 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
   @override
   void initState() {
     super.initState();
-    
+
     // 初始化Java版本配置
     _javaConfigs = {
       21: JavaVersionConfig(
@@ -60,7 +60,7 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
         isTesting: signal(false),
       ),
     };
-    
+
     // 设置controller的初始值
     for (int version in [21, 17, 8]) {
       _javaConfigs[version]!.controller.text = _getJavaPath(version).value;
@@ -91,7 +91,7 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
   // 安装Java
   Future<void> _installJava(int version) async {
     if (!mounted) return;
-    
+
     final config = _javaConfigs[version]!;
     config.isDownloading.value = true;
 
@@ -131,9 +131,9 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
 
   // 显示SnackBar的辅助方法
   void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   // 搜索Java
@@ -174,7 +174,7 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
   // 测试Java
   Future<void> _testJava(int version) async {
     if (!mounted) return;
-    
+
     final config = _javaConfigs[version]!;
     config.isTesting.value = true;
 
@@ -204,16 +204,13 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
   // 构建Java版本设置UI的辅助方法
   Widget _buildJavaVersionSection(int version) {
     final config = _javaConfigs[version]!;
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Java $version',
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5),
         // 使用Watch监听AppState中的Java路径，当路径变化时更新controller的文本
@@ -236,16 +233,24 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
         const SizedBox(height: 5),
         Row(
           children: [
-            Watch((context) => NavRectButton(
-                  text: config.isDownloading.watch(context) ? "下载中..." : "安装JAVA",
-                  defaultBackgroundColor: const Color(0xFF33363D),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  icon: config.isDownloading.watch(context) ? Icons.downloading : Icons.download,
-                  isSelected: false,
-                  onMouseEnter: () {},
-                  onMouseExit: () {},
-                  onTap: config.isDownloading.watch(context) ? () {} : () => _installJava(version),
-                )),
+            Watch(
+              (context) => NavRectButton(
+                text: config.isDownloading.watch(context) ? "下载中..." : "安装JAVA",
+                defaultBackgroundColor: const Color(0xFF33363D),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                icon:
+                    config.isDownloading.watch(context)
+                        ? Icons.downloading
+                        : Icons.download,
+                isSelected: false,
+                onMouseEnter: () {},
+                onMouseExit: () {},
+                onTap:
+                    config.isDownloading.watch(context)
+                        ? () {}
+                        : () => _installJava(version),
+              ),
+            ),
             const SizedBox(width: 5),
             NavRectButton(
               text: "搜索",
@@ -271,17 +276,25 @@ class _JavaSettingsPageState extends State<JavaSettingsPage> {
               onTap: () => _selectJavaPath(version),
             ),
             const SizedBox(width: 5),
-            Watch((context) => NavRectButton(
-                  text: config.isTesting.watch(context) ? "测试中..." : "测试",
-                  defaultBackgroundColor: const Color(0xFF33363D),
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  icon: config.isTesting.watch(context) ? Icons.hourglass_empty : Icons.check_circle,
-                  isSelected: false,
-                  width: 80,
-                  onMouseEnter: () {},
-                  onMouseExit: () {},
-                  onTap: config.isTesting.watch(context) ? () {} : () => _testJava(version),
-                )),
+            Watch(
+              (context) => NavRectButton(
+                text: config.isTesting.watch(context) ? "测试中..." : "测试",
+                defaultBackgroundColor: const Color(0xFF33363D),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                icon:
+                    config.isTesting.watch(context)
+                        ? Icons.hourglass_empty
+                        : Icons.check_circle,
+                isSelected: false,
+                width: 80,
+                onMouseEnter: () {},
+                onMouseExit: () {},
+                onTap:
+                    config.isTesting.watch(context)
+                        ? () {}
+                        : () => _testJava(version),
+              ),
+            ),
           ],
         ),
       ],
