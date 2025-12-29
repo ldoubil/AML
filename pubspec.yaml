@@ -48,6 +48,8 @@ dependencies:
   file_picker: ^8.0.0+1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  rust_lib_aml:
+    path: ./rust_builder
 
 dev_dependencies:
   flutter_test:
