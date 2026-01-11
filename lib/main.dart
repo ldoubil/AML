@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:aml/aml_app.dart';
+import 'package:aml/app/app.dart';
 import 'package:aml/core/window_manager.dart';
-import 'package:aml/state/app_state.dart';
+import 'package:aml/app/app_store.dart';
+import 'package:aml/app/debug/debug_commands.dart';
 import 'package:aml/src/rust/frb_generated.dart';
 import 'package:flutter/material.dart';
-
-import 'storage/debug_commands.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +14,7 @@ Future<void> main() async {
   await RustLib.init();
 
   // 初始化全局状态与配置
-  await AppState().initialize();
+  await AppStore().initialize();
 
   // 初始化窗口管理器（桌面平台）
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
