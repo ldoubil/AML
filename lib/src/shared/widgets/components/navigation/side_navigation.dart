@@ -1,9 +1,9 @@
 import 'package:aml/app/app_store.dart';
-import 'package:aml/presentation/config/main_navigation.dart';
-import 'package:aml/presentation/screens/dialogs/create_new_instance.dart';
-import 'package:aml/presentation/screens/settings/settings_screen.dart';
-import 'package:aml/presentation/components/buttons/custom_button.dart';
-import 'package:aml/presentation/components/navigation/nav_button.dart';
+import 'package:aml/src/features/instances/ui/create_new_instance.dart';
+import 'package:aml/src/features/settings/ui/settings_screen.dart';
+import 'package:aml/src/features/shell/main_navigation.dart';
+import 'package:aml/src/shared/widgets/components/buttons/custom_button.dart';
+import 'package:aml/src/shared/widgets/components/navigation/nav_button.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 

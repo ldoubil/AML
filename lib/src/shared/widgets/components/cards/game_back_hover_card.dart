@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:aml/presentation/theme/app_colors.dart';
-import 'package:aml/presentation/components/buttons/custom_button.dart';
-import 'package:aml/presentation/components/buttons/custom_tooltip.dart';
-import 'package:aml/presentation/components/navigation/nav_rect_button.dart';
+import 'package:aml/src/shared/theme/app_colors.dart';
+import 'package:aml/src/shared/widgets/components/buttons/custom_button.dart';
+import 'package:aml/src/shared/widgets/components/buttons/custom_tooltip.dart';
+import 'package:aml/src/shared/widgets/components/navigation/nav_rect_button.dart';
 import 'package:flutter/material.dart';
 
 class GameBackHoverCard extends StatefulWidget {

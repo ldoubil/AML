@@ -1,7 +1,7 @@
-import 'package:aml/presentation/components/buttons/button_group_widget.dart';
-import 'package:aml/presentation/components/buttons/custom_button.dart';
-import 'package:aml/presentation/components/inputs/input_bar.dart';
-import 'package:aml/presentation/components/navigation/nav_rect_button.dart';
+import 'package:aml/src/shared/widgets/components/buttons/button_group_widget.dart';
+import 'package:aml/src/shared/widgets/components/buttons/custom_button.dart';
+import 'package:aml/src/shared/widgets/components/inputs/input_bar.dart';
+import 'package:aml/src/shared/widgets/components/navigation/nav_rect_button.dart';
 import 'package:flutter/material.dart';
 
 class CreateInstanceContent extends StatelessWidget {

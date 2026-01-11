@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:aml/presentation/config/settings_registry.dart';
-import 'package:aml/presentation/components/navigation/nav_rect_button.dart';
+import 'package:aml/src/shared/widgets/components/navigation/nav_rect_button.dart';
+import 'package:aml/src/features/settings/ui/settings_pages.dart';
 import 'package:flutter/material.dart';
 
 class SettingsNavigationPanel extends StatelessWidget {
@@ -21,7 +21,7 @@ class SettingsNavigationPanel extends StatelessWidget {
         Expanded(
           child: ListView(
             padding: EdgeInsets.zero,
-            children: SettingsRegistry.pages
+            children: SettingsPages.pages
                 .map(
                   (config) => Padding(
                     padding: const EdgeInsets.only(

@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:aml/presentation/state/progress_state.dart';
-import 'package:aml/presentation/theme/app_colors.dart';
-import 'package:aml/presentation/components/buttons/custom_button.dart';
+import 'package:aml/src/app/state/progress_state.dart';
+import 'package:aml/src/shared/theme/app_colors.dart';
+import 'package:aml/src/shared/widgets/components/buttons/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 

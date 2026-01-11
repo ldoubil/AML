@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:aml/presentation/state/progress_state.dart';
+import 'package:aml/src/app/state/progress_state.dart';
 import 'package:aml/domain/models/progress_item.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
