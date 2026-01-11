@@ -1,7 +1,6 @@
-import 'package:aml/src/rust/api/java_download.dart';
+import 'package:aml/state/app_state.dart';
 import 'package:aml/ui/widgets/input_bar.dart';
 import 'package:aml/ui/widgets/nav_rect_button.dart';
-import 'package:aml/state/app_state.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
@@ -61,7 +60,6 @@ class _ResourceSettingsPageState extends State<ResourceSettingsPage> {
                   (_) {
                     final currentPath =
                         _appStore.resourceDirectory.watch(context);
-                    // 只有当路径与当前controller文本不同时才更新，避免循环更新
                     if (_controller.text != currentPath) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         _controller.text = currentPath;

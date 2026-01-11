@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:aml/ui/widgets/debug_console.dart';
 import 'package:aml/state/progress_state.dart';
+import 'package:aml/ui/widgets/debug_console.dart';
 import 'package:aml/util/java_download_rust.dart';
+import 'package:flutter/foundation.dart';
 
 void registerDebugCommands() {
   DebugCommandRegistry()
@@ -25,11 +26,10 @@ void registerDebugCommands() {
             timer.cancel();
           } else {
             item.progress.value += 0.01;
-            // 打印
-            print('进度: ${item.progress.value}%');
+            debugPrint('进度: ${item.progress.value}%');
           }
         });
-        return Future.value('已创建进度项: ${item.name}');
+        return Future.value('已创建进度项: ${item.name.value}');
       } catch (e) {
         return Future.value('创建失败: $e');
       }

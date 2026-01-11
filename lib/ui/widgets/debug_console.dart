@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// 命令处理器，支持注册和执行命令
 class DebugCommandRegistry {
   static final DebugCommandRegistry _instance =
       DebugCommandRegistry._internal();
@@ -35,7 +34,6 @@ class DebugCommandRegistry {
   List<String> get commandList => _commands.keys.toList();
 }
 
-/// 调试命令行悬浮窗口
 class DebugConsoleOverlay extends StatefulWidget {
   final double width;
   final double height;
@@ -46,7 +44,6 @@ class DebugConsoleOverlay extends StatefulWidget {
 }
 
 class _DebugConsoleOverlayState extends State<DebugConsoleOverlay> {
-  // 用于命令自动补全提示
   final FocusNode _focusNode = FocusNode();
   List<String> _suggestions = [];
   int _selectedSuggestion = -1;
@@ -63,20 +60,20 @@ class _DebugConsoleOverlayState extends State<DebugConsoleOverlay> {
     _controller.clear();
     _suggestions = [];
     _selectedSuggestion = -1;
-    
+
     try {
       final result = await DebugCommandRegistry().execute(cmd);
       setState(() {
-        _output.removeLast(); // 移除 "执行中..." 消息
+        _output.removeLast();
         _output.add(result);
       });
     } catch (e) {
       setState(() {
-        _output.removeLast(); // 移除 "执行中..." 消息
+        _output.removeLast();
         _output.add('执行错误: $e');
       });
     }
-    
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);

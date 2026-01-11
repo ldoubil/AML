@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../ui/screen/main/home_page.dart';
+
 import '../ui/screen/main/discover_page.dart';
-import '../ui/screen/main/wardrobe_page.dart';
+import '../ui/screen/main/home_page.dart';
 import '../ui/screen/main/resource_page.dart';
+import '../ui/screen/main/wardrobe_page.dart';
 
 class MainPageConfig {
   final String id;

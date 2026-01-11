@@ -1,4 +1,3 @@
-import 'package:aml/src/rust/api/simple.dart';
 import 'package:aml/storage/scheme.dart';
 import 'package:aml/ui/screen/main_screen.dart' show MainScreen;
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -12,9 +11,8 @@ class AmlApp extends StatefulWidget {
 
 class _AmlAppState extends State<AmlApp> {
   @override
-  void initState()  {
+  void initState() {
     super.initState();
-    // 初始化
   }
 
   @override

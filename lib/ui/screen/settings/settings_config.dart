@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:aml/ui/screen/settings/theme_settings_page.dart';
-import 'package:aml/ui/screen/settings/privacy_settings_page.dart';
-import 'package:aml/ui/screen/settings/java_settings_page.dart';
 import 'package:aml/ui/screen/settings/game_instance_settings_page.dart';
+import 'package:aml/ui/screen/settings/java_settings_page.dart';
+import 'package:aml/ui/screen/settings/privacy_settings_page.dart';
 import 'package:aml/ui/screen/settings/resource_settings_page.dart';
+import 'package:aml/ui/screen/settings/theme_settings_page.dart';
+import 'package:flutter/material.dart';
 
-// 设置页面配置项
 class SettingsPageConfig {
   final String id;
   final String title;
@@ -20,7 +19,6 @@ class SettingsPageConfig {
   });
 }
 
-// 设置页面配置
 class SettingsConfig {
   static const List<SettingsPageConfig> pages = [
     SettingsPageConfig(
@@ -37,7 +35,7 @@ class SettingsConfig {
     ),
     SettingsPageConfig(
       id: 'java',
-      title: 'JAVA配置',
+      title: 'JAVA 配置',
       icon: Icons.code,
       page: JavaSettingsPage(),
     ),

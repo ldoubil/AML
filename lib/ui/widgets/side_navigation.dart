@@ -1,11 +1,11 @@
 import 'package:aml/state/app_state.dart';
+import 'package:aml/storage/main_config.dart';
 import 'package:aml/ui/screen/create_new_instance.dart';
+import 'package:aml/ui/screen/settings_screen.dart';
+import 'package:aml/ui/widgets/custom_button.dart';
+import 'package:aml/ui/widgets/nav_button.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
-import 'package:aml/ui/widgets/nav_button.dart';
-import 'package:aml/ui/widgets/custom_button.dart';
-import 'package:aml/storage/main_config.dart';
-import 'package:aml/ui/screen/settings_screen.dart';
 
 class SideNavigation extends StatelessWidget {
   final ColorScheme colorScheme;
@@ -22,7 +22,6 @@ class SideNavigation extends StatelessWidget {
       color: colorScheme.primary,
       child: Column(
         children: [
-          // 动态生成主要导航按钮
           ...MainConfig.pages.asMap().entries.map((entry) {
             final pageConfig = entry.value;
             return NavButton(
@@ -33,7 +32,6 @@ class SideNavigation extends StatelessWidget {
               onTap: () => AppState().currentPage.value = pageConfig.id,
             );
           }),
-          // 添加一个带有上下边距的分割线
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Divider(

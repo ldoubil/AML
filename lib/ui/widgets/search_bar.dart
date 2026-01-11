@@ -72,7 +72,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         fontSize = 15;
         contentPadding =
             const EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6);
-        hintText = widget.hintText ?? '输入关键词';
+        hintText = widget.hintText ?? '输入关键字';
         break;
       case SearchBarSize.small:
         height = 20;
@@ -142,8 +142,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           style: TextStyle(
             color: widget.colorScheme.tertiaryContainer,
             fontSize: fontSize,
-          ), // 文字颜色设为在主题色上可见的颜色
-          cursorColor: widget.colorScheme.onTertiaryContainer, // 设置光标颜色
+          ),
+          cursorColor: widget.colorScheme.onTertiaryContainer,
         ),
       ),
     );
