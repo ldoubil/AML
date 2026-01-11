@@ -1,10 +1,10 @@
 import 'package:aml/api/modrinth_api.dart';
-import 'package:aml/ui/widgets/search_bar.dart';
+import 'package:aml/ui/widgets/cards/app_card.dart';
+import 'package:aml/ui/widgets/input/dropdown_button_widget.dart';
+import 'package:aml/ui/widgets/input/search_bar.dart';
+import 'package:aml/ui/widgets/misc/pagination_widget.dart';
+import 'package:aml/ui/widgets/tabs/animated_tab_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:aml/ui/widgets/animated_tab_bar.dart';
-import 'package:aml/ui/widgets/app_card.dart';
-import 'package:aml/ui/widgets/dropdown_button_widget.dart';
-import 'package:aml/ui/widgets/pagination_widget.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});

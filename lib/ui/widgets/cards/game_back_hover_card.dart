@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:aml/ui/widgets/custom_button.dart';
-import 'package:aml/ui/widgets/nav_rect_button.dart';
+import 'package:aml/ui/widgets/buttons/custom_button.dart';
+import 'package:aml/ui/widgets/buttons/custom_tooltop.dart';
+import 'package:aml/ui/widgets/navigation/nav_rect_button.dart';
 import 'package:flutter/material.dart';
-import 'custom_tooltop.dart';
 
 class GameBackHoverCard extends StatefulWidget {
   final double height;

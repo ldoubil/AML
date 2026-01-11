@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:aml/state/progress_state.dart';
-import 'package:aml/ui/widgets/debug_console.dart';
+import 'package:aml/ui/widgets/overlay/debug_console.dart';
 import 'package:aml/util/java_download_rust.dart';
 import 'package:flutter/foundation.dart';
 

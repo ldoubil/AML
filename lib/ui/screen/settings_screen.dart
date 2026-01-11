@@ -1,4 +1,4 @@
-import 'package:aml/ui/widgets/nav_rect_button.dart';
+import 'package:aml/ui/widgets/navigation/nav_rect_button.dart';
 import 'package:aml/ui/screen/settings/settings_config.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';

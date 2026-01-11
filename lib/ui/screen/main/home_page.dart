@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:aml/api/modrinth_api.dart';
-import '../../widgets/game_back_hover_card.dart';
-import '../../widgets/hover_text_with_arrow.dart';
-import '../../widgets/discover_box.dart';
+import 'package:aml/ui/widgets/cards/discover_box.dart';
+import 'package:aml/ui/widgets/cards/game_back_hover_card.dart';
+import 'package:aml/ui/widgets/misc/hover_text_with_arrow.dart';
+import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

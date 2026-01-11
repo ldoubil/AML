@@ -1,4 +1,4 @@
-import 'package:aml/ui/widgets/custom_tooltop.dart';
+import 'package:aml/ui/widgets/buttons/custom_tooltop.dart';
 import 'package:flutter/material.dart';
 
 class NavButton extends StatefulWidget {

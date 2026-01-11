@@ -1,6 +1,6 @@
 import 'package:aml/state/app_state.dart';
-import 'package:aml/ui/widgets/input_bar.dart';
-import 'package:aml/ui/widgets/nav_rect_button.dart';
+import 'package:aml/ui/widgets/input/input_bar.dart';
+import 'package:aml/ui/widgets/navigation/nav_rect_button.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 

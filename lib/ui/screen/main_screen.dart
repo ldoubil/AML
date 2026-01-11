@@ -6,9 +6,9 @@ import 'package:signals_flutter/signals_flutter.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_shadow/flutter_inset_shadow.dart';
 import 'package:aml/storage/main_config.dart';
-import 'package:aml/ui/widgets/side_navigation.dart';
-import 'package:aml/ui/widgets/debug_console.dart';
-import 'package:aml/ui/widgets/progress_box.dart';
+import 'package:aml/ui/widgets/navigation/side_navigation.dart';
+import 'package:aml/ui/widgets/overlay/debug_console.dart';
+import 'package:aml/ui/widgets/overlay/progress_box.dart';
 
 // 主屏幕Widget，使用StatefulWidget以管理状态
 class MainScreen extends StatefulWidget {

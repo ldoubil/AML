@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:aml/state/app_state.dart';
-import 'package:aml/ui/widgets/input_bar.dart';
-import 'package:aml/ui/widgets/nav_rect_button.dart';
+import 'package:aml/ui/widgets/input/input_bar.dart';
+import 'package:aml/ui/widgets/navigation/nav_rect_button.dart';
 import 'package:aml/util/java_download_rust.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

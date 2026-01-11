@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:aml/state/progress_state.dart';
-import 'package:aml/ui/widgets/custom_button.dart';
+import 'package:aml/ui/widgets/buttons/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 

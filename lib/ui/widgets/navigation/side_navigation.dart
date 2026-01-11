@@ -2,8 +2,8 @@ import 'package:aml/state/app_state.dart';
 import 'package:aml/storage/main_config.dart';
 import 'package:aml/ui/screen/create_new_instance.dart';
 import 'package:aml/ui/screen/settings_screen.dart';
-import 'package:aml/ui/widgets/custom_button.dart';
-import 'package:aml/ui/widgets/nav_button.dart';
+import 'package:aml/ui/widgets/buttons/custom_button.dart';
+import 'package:aml/ui/widgets/navigation/nav_button.dart';
 import 'package:flutter/material.dart';
 import 'package:signals_flutter/signals_flutter.dart';
 
